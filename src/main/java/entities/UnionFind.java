@@ -14,6 +14,11 @@ class UnionFind {
         if(parent[x] != x) {
             parent[x] = find(parent[x]);
         }
+        /*
+        System.out.println("La cellule " + x + " est dans le groupe " + parent[x]);
+        if(x != parent[x])
+            System.out.println("La cellule " + x + " fait partie du groupe " + parent[x]);
+         */
         return parent[x];
     }
 

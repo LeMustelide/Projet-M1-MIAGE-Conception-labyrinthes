@@ -6,14 +6,14 @@ class LabyrinthSVGGenerator {
         int cellSize = 20;  // Taille de chaque cellule en pixels
         StringBuilder svgContent = new StringBuilder();
 
-        int width = (labyrinth.verticalWalls[0].length - 1) * cellSize;
-        int height = (labyrinth.horizontalWalls.length - 1) * cellSize;
+        int width = (labyrinth.verticalWalls[0].length) * cellSize;
+        int height = (labyrinth.horizontalWalls.length) * cellSize;
 
         svgContent.append("<svg width=\"" + width + "\" height=\"" + height + "\" xmlns=\"http://www.w3.org/2000/svg\">\n");
 
         // Dessiner les murs verticaux
         for (int i = 0; i < labyrinth.verticalWalls.length; i++) {
-            for (int j = 0; j < labyrinth.verticalWalls[i].length; j++) {
+            for (int j = 0; j < labyrinth.verticalWalls[i].length + 1; j++) {
                 if (labyrinth.verticalWalls[i][j]) {
                     int x1 = j * cellSize;
                     int y1 = i * cellSize;

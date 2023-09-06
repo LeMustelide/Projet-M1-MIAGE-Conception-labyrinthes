@@ -1,6 +1,9 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Arrays;
 
 public class Labyrinth {
     public boolean[][] verticalWalls;    // Murs verticaux: (m+1) x n
@@ -26,64 +29,78 @@ public class Labyrinth {
         }
     }
 
-    public void checkAndOpenWall() {
-        Random rand = new Random();
-
-        while (true) {
-            int i = rand.nextInt(verticalWalls.length - 1);
-            int j = rand.nextInt(verticalWalls[0].length);
-
-            boolean chooseHorizontal = rand.nextBoolean();
-
-            if (chooseHorizontal && i < horizontalWalls.length) {
-                if (uf.find(i * horizontalWalls[0].length + j) != uf.find((i + 1) * horizontalWalls[0].length + j)) {
-                    horizontalWalls[i][j] = false;
-                    uf.union(i * horizontalWalls[0].length + j, (i + 1) * horizontalWalls[0].length + j);
-                    break;
-                }
-            } else if (!chooseHorizontal && j < verticalWalls[0].length - 1) {
-                if (uf.find(i * verticalWalls[0].length + j) != uf.find(i * verticalWalls[0].length + (j + 1))) {
-                    verticalWalls[i][j] = false;
-                    uf.union(i * verticalWalls[0].length + j, i * verticalWalls[0].length + (j + 1));
-                    break;
-                }
-            }
-        }
-    }
-
     public void generatePerfectLabyrinth() {
         Random rand = new Random();
-        int m = verticalWalls.length - 1;
-        int n = verticalWalls[0].length;
+        int col = verticalWalls.length ;
+        int line = horizontalWalls.length ;
 
-        int wallsToOpen = m * n - 1;
+        System.out.println("col : " + col);
+        System.out.println("line : " + line);
+
+        System.out.println("col : " + col);
+        System.out.println("line : " + line);
+
+        int wallsToOpen = col * line - 1 - 5;
 
         while (wallsToOpen > 0) {
-            int i = rand.nextInt(m);
-            int j = rand.nextInt(n);
+            int x = rand.nextInt(0, col);
+            int y = rand.nextInt(0, line);
 
             // Choisir la direction du mur : horizontal ou vertical
             boolean chooseHorizontal = rand.nextBoolean();
-
-            if (chooseHorizontal && i < m - 1) {
+            if (chooseHorizontal && x < col - 1 && x < line - 1) {
                 // Vérifier les cellules en haut et en bas du mur horizontal
-                int cell1Id = i * n + j;
-                int cell2Id = (i + 1) * n + j;
-                if (uf.find(cell1Id) != uf.find(cell2Id)) {
-                    horizontalWalls[i][j] = false;
+                int cell1Id = x * line + y;
+                int cell2Id = (x + 1) * line + y;
+                int group1 = uf.find(cell1Id);
+                int group2 = uf.find(cell2Id);
+                if (group1 != group2) {
+                    horizontalWalls[2][y] = false;
+                    System.out.println("delete wall : " + x + " " + y);
+                    System.out.println(cell1Id);
                     uf.union(cell1Id, cell2Id);
                     wallsToOpen--;
                 }
-            } else if (!chooseHorizontal && j < n - 1) {
+            } else if (!chooseHorizontal && y < line - 1) {
                 // Vérifier les cellules à gauche et à droite du mur vertical
-                int cell1Id = i * n + j;
-                int cell2Id = i * n + (j + 1);
-                if (uf.find(cell1Id) != uf.find(cell2Id)) {
-                    verticalWalls[i][j] = false;
+                int cell1Id = x * line + y;
+                int cell2Id = x * line + (y + 1);
+                int group1 = uf.find(cell1Id);
+                int group2 = uf.find(cell2Id);
+                if (group1 != group2) {
+                    //verticalWalls[x][y] = false;
                     uf.union(cell1Id, cell2Id);
                     wallsToOpen--;
                 }
             }
+
+            //System.out.println(wallsToOpen);
+
+            /*
+            if(wallsToOpen == 8) {
+                System.out.println("--- Liste de groupes ---");
+                List<Integer> groups = new ArrayList<>();
+                for (int h = 0; h < col*line - 1; h++) {
+                    if(!groups.contains(uf.find(h))) {
+                        System.out.println("groupe : " + uf.find(h));
+                        groups.add(uf.find(h));
+                    }
+                }
+                System.out.println("--- Fin de la liste ---");
+            }
+
+             */
+
+            /*
+            if(wallsToOpen > 0 && wallsToOpen < 2){
+                int start = rand.nextInt(0, col);
+                int end = rand.nextInt(0, col);
+
+                verticalWalls[start][0] = false;
+                verticalWalls[end][line-1] = false;
+                wallsToOpen = 0;
+            }
+            */
         }
     }
 
