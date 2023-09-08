@@ -52,7 +52,9 @@
                             <executable>bash</executable>
                             <arguments>
                                 <argument>-c</argument>
-                                <argument>cp src/main/resources/labyrinthe-template.sh ${project.build.directory}/labyrinthe &amp;&amp; chmod +x ${project.build.directory}/labyrinthe</argument>
+                                <argument>
+                                    sed 's/VERSION/${project.version}/' src/main/resources/labyrinthe-template.sh &gt; ${project.build.directory}/labyrinthe &amp;&amp; chmod +x ${project.build.directory}/labyrinthe
+                                </argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -63,4 +65,3 @@
     </build>
 
 </project>
-

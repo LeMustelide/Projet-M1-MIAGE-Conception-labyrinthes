@@ -46,13 +46,15 @@ L'apport principal de notre travail réside dans l'adoption d'une structure Unio
 Pour compiler l'application, utilisez la commande suivante :
 
 ```bash
-mvn package
+mvn clean package
 ```
 
 
 ## Execution
 
-Pour exécuter l'application, après avoir compilé, utilisez la commande suivante :
+Une fois le projet compilé, assurez-vous d'être dans le répertoire /target pour exécuter l'application.
+
+Pour exécuter l'application, utilisez la commande suivante :
 
 ```bash
 ./labyrinthe [TAILLE]
