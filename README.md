@@ -16,7 +16,7 @@ La fusion aléatoire de chemins se base sur une propriété des labyrinthes parf
 
 Le processus est le suivant :
 
-1. Une valeur unique est associée à chaque cellule (leur numéro de séquence, par exemple). Au départ, le labyrinthe est considéré comme ayant tous les murs fermés.
+1. Une valeur unique est associée à chaque cellule (leur numéro de séquence). Au départ, le labyrinthe est considéré comme ayant tous les murs fermés.
 2. À chaque itération, un mur est choisi aléatoirement pour être ouvert.
 3. L'ouverture d'un mur entre deux cellules adjacentes les relie et forme un chemin.
 4. Avant d'ouvrir un mur entre deux cellules, l'algorithme vérifie que ces cellules ont des identifiants différents :
