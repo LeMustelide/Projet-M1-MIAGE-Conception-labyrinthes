@@ -1,28 +1,41 @@
 package labyrinth;
 
 public class UnionFind {
-    int[] group;
+    private final int[] parent;
+    private final int[] rank;
 
     public UnionFind(int size) {
-        group = new int[size];
-        for(int i = 0; i < size; i++) {
-            group[i] = i;
+        parent = new int[size];
+        rank = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            parent[i] = i;
+            rank[i] = 0;
         }
     }
 
     public int find(int x) {
-        return group.length > x ? group[x] : -1;
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
     }
 
     public void union(int x, int y) {
         int rootX = find(x);
         int rootY = find(y);
-        if(rootX != rootY && rootX != -1 && rootY != -1) {
-            for(int i = 0; i < group.length; i++) {
-                if(group[i] == rootY) {
-                    group[i] = rootX;
-                }
-            }
+
+        if (rootX == rootY) {
+            return;
+        }
+
+        if (rank[rootX] < rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] > rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
         }
     }
 }
