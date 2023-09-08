@@ -55,7 +55,13 @@ mvn package
 Pour exécuter l'application, après avoir compilé, utilisez la commande suivante :
 
 ```bash
-java -jar Projet-M1-MIAGE-Conception-labyrinthes-1.0.1.jar
+./labyrinthe [TAILLE]
+```
+
+OU
+
+```bash
+java -jar Projet-M1-MIAGE-Conception-labyrinthes-1.2.0.jar [TAILLE]
 ```
 
 
