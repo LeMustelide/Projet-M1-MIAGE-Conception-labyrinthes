@@ -1,6 +1,6 @@
 package labyrinth;
 
-class UnionFind {
+public class UnionFind {
     int[] group;
 
     public UnionFind(int size) {

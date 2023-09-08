@@ -5,7 +5,7 @@ import java.util.Random;
 public class Labyrinth {
     public boolean[][] verticalWalls;    // Murs verticaux: (m+1) x n
     public boolean[][] horizontalWalls;  // Murs horizontaux: m x (n+1)
-    public UnionFind uf;
+    UnionFind uf;
 
     public int start, end;
 

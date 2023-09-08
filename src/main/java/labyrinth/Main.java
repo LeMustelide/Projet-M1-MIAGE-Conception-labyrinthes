@@ -1,8 +1,5 @@
 package labyrinth;
 
-import labyrinth.Labyrinth;
-import labyrinth.LabyrinthSVGGenerator;
-
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -33,13 +30,6 @@ public class Main {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-    }
-
-    public static void copyToClipboard(String str) {
-        StringSelection stringSelection = new StringSelection(str);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        System.out.println(str);
     }
 
 }
