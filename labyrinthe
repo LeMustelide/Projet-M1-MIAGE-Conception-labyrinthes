@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# Exécuter le programme Java avec la taille donnée comme argument
-java -jar target/Projet-M1-MIAGE-Conception-labyrinthes-VERSION.jar $1
