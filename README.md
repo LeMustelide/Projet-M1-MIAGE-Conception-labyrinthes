@@ -49,23 +49,15 @@ Pour compiler l'application, utilisez la commande suivante :
 mvn clean package
 ```
 
-
 ## Execution
 
-Une fois le projet compilé, assurez-vous d'être dans le répertoire /target pour exécuter l'application.
+Une fois le projet compilé, assurez-vous d'être dans le répertoire ./labyrinthe/bin/ pour exécuter l'application.
 
 Pour exécuter l'application, utilisez la commande suivante :
 
 ```bash
 ./labyrinthe [TAILLE]
 ```
-
-OU
-
-```bash
-java -jar Projet-M1-MIAGE-Conception-labyrinthes-1.2.0.jar [TAILLE]
-```
-
 
 Cela générera un labyrinthe parfait, le convertira en SVG, et sauvegardera cette représentation SVG dans un fichier appelé `labyrinthe.svg`.
 

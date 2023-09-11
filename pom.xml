@@ -40,21 +40,26 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>generate-labyrinthe-script</id>
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>bash</executable>
+                            <executable>${java.home}/bin/jpackage</executable>
                             <arguments>
-                                <argument>-c</argument>
-                                <argument>
-                                    sed 's/VERSION/${project.version}/' src/main/resources/labyrinthe-template.sh &gt; ${project.build.directory}/labyrinthe &amp;&amp; chmod +x ${project.build.directory}/labyrinthe
-                                </argument>
+                                <argument>--type</argument>
+                                <argument>app-image</argument>
+                                <argument>--name</argument>
+                                <argument>labyrinthe</argument>
+                                <argument>--input</argument>
+                                <argument>target</argument>
+                                <argument>--main-jar</argument>
+                                <argument>Projet-M1-MIAGE-Conception-labyrinthes-1.2.0.jar</argument>
+                                <argument>--main-class</argument>
+                                <argument>labyrinth.Main</argument>
                             </arguments>
                         </configuration>
                     </execution>
