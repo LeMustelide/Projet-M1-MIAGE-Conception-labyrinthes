@@ -2,3 +2,6 @@ target/*
 *.svg
 .idea
 labyrinthe/*
+profiler/v1/*
+profiler/v2/*
+profiler/v3/*

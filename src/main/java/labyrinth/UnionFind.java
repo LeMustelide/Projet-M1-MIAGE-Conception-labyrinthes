@@ -4,9 +4,12 @@ public class UnionFind {
     private final int[] parent;
     private final int[] rank;
 
+    public int numSets;
+
     public UnionFind(int size) {
         parent = new int[size];
         rank = new int[size];
+        numSets = size;
 
         for (int i = 0; i < size; i++) {
             parent[i] = i;
@@ -15,10 +18,11 @@ public class UnionFind {
     }
 
     public int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);
+        while (x != parent[x]) {
+            parent[x] = parent[parent[x]];  // Compression de chemin lors de la recherche
+            x = parent[x];
         }
-        return parent[x];
+        return x;
     }
 
     public void union(int x, int y) {
@@ -37,5 +41,6 @@ public class UnionFind {
             parent[rootY] = rootX;
             rank[rootX]++;
         }
+        numSets--;
     }
 }

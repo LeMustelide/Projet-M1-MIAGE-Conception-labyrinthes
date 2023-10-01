@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        int size = 50;
+        int size = 5000;
 
         if (args.length > 0) {
             try {

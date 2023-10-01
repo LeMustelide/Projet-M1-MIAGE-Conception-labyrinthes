@@ -1,8 +1,13 @@
 package labyrinth;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Labyrinth {
+
+    private Random rand = new Random();
     public boolean[][] verticalWalls;    // Murs verticaux: (m+1) x n
     public boolean[][] horizontalWalls;  // Murs horizontaux: m x (n+1)
     UnionFind uf;
@@ -14,15 +19,14 @@ public class Labyrinth {
         this.horizontalWalls = new boolean[m+1][n];
         this.uf = new UnionFind(m * n);
 
-        // Initialiser tous les murs à 'fermé'
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n+1; j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n+1; j++) {
                 verticalWalls[i][j] = true;
             }
         }
 
-        for(int i = 0; i < m+1; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < m+1; i++) {
+            for (int j = 0; j < n; j++) {
                 horizontalWalls[i][j] = true;
             }
         }
@@ -33,41 +37,84 @@ public class Labyrinth {
         int line = verticalWalls.length;
         int col = horizontalWalls[0].length;
 
-        int wallsToOpen = line * col - 1;
+        ArrayList<Integer> walls = new ArrayList<>();
 
-        while (wallsToOpen > 0) {
-            int y = rand.nextInt(line);
-            int x = rand.nextInt(col);
+        for (int y = 0; y < line; y++) {
+            for (int x = 0; x < col; x++) {
+                if (y < line - 1) {
+                    walls.add(encodeWall(x, y, true));
+                }
+                if (x < col - 1) {
+                    walls.add(encodeWall(x, y, false));
+                }
+            }
+        }
 
-            // Choisir la direction du mur : horizontal ou vertical
-            boolean chooseHorizontal = rand.nextBoolean();
+        shuffle(walls);
 
-            if (chooseHorizontal && y < line - 1) {
-                // Vérifier les cellules en haut et en bas du mur horizontal
-                int cell1Id = (y * col + x);
-                int cell2Id = ((y + 1) * col + x);
-                if (uf.find(cell1Id) != uf.find(cell2Id) && uf.find(cell2Id) != -1 && verticalWalls[y+1][x]) {
+        for (int wall : walls) {
+            int x, y;
+            boolean isHorizontal;
+            x = decodeX(wall);
+            y = decodeY(wall);
+            isHorizontal = decodeOrientation(wall);
+
+            int cell1Id, cell2Id;
+            if (isHorizontal) {
+                cell1Id = (y * col + x);
+                cell2Id = ((y + 1) * col + x);
+                int cell1Parent = uf.find(cell1Id);
+                int cell2Parent = uf.find(cell2Id);
+                if (cell1Parent != cell2Parent && cell2Parent != -1 && horizontalWalls[y+1][x]) {
                     horizontalWalls[y+1][x] = false;
                     uf.union(cell1Id, cell2Id);
-                    wallsToOpen--;
                 }
-            } else if (!chooseHorizontal && x < col - 1) {
-                // Vérifier les cellules à gauche et à droite du mur vertical
-                int cell1Id = (y * col + x);
-                int cell2Id = (y * col + (x + 1));
-                if (uf.find(cell1Id) != uf.find(cell2Id) && uf.find(cell2Id) != -1 && verticalWalls[y][x+1]) {
+            } else {
+                cell1Id = (y * col + x);
+                cell2Id = (y * col + (x + 1));
+                int cell1Parent = uf.find(cell1Id);
+                int cell2Parent = uf.find(cell2Id);
+                if (cell1Parent != cell2Parent && cell2Parent != -1 && verticalWalls[y][x+1]) {
                     verticalWalls[y][x+1] = false;
                     uf.union(cell1Id, cell2Id);
-                    wallsToOpen--;
                 }
+            }
+
+            if (uf.numSets == 1) {
+                break;
             }
         }
 
         start = rand.nextInt(col);
         end = rand.nextInt(col);
 
-
         verticalWalls[start][0] = false;
         verticalWalls[end][line] = false;
     }
+
+
+    private int encodeWall(int x, int y, boolean isHorizontal) {
+        return (x << 1) | (y << 16) | (isHorizontal ? 1 : 0);
+    }
+
+    private int decodeX(int wall) {
+        return (wall >> 1) & 0x7FFF;
+    }
+
+    private int decodeY(int wall) {
+        return (wall >> 16) & 0x7FFF;
+    }
+
+    private boolean decodeOrientation(int wall) {
+        return (wall & 1) == 1;
+    }
+
+    private void shuffle(List<?> list) {
+        int size = list.size();
+        for (int i = size - 1; i > 0; i--) {
+            int index = rand.nextInt(i + 1);
+            Collections.swap(list, i, index);
+        }
+    }
+
 }
