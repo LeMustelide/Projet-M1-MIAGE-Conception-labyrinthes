@@ -23,9 +23,9 @@ def write_results(resultats):
         writer.writerow(['taille', 'temps'])
         writer.writerows(resultats)
 
-tailles = [random.randint(10, 5000) for _ in range(200)]
+tailles = [random.randint(10, 5000) for _ in range(50)]
 
-with ProcessPoolExecutor() as executor:
+with ProcessPoolExecutor(max_workers=4) as executor:
     resultats = list(executor.map(execute_program, tailles))
 
 somme = sum(temps for _, temps, _ in resultats)

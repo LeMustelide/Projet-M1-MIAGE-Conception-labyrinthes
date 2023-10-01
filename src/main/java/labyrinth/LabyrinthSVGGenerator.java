@@ -51,13 +51,13 @@ class LabyrinthSVGGenerator {
         int y1 = labyrinth.start * cellSize + 5;
         int x2 = x1;
         int y2 = y1 + cellSize;
-        svgContent.append(String.format("<line class=\"entry\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" />\n", x1, y1, x2, y2));
+        svgContent.append(String.format("<line class=\"entry\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\"/>", x1, y1, x2, y2));
 
         x1 = (labyrinth.horizontalWalls.length-1) * cellSize + 5;
         y1 = labyrinth.end * cellSize + 5;
         x2 = x1;
         y2 = y1 + cellSize;
-        svgContent.append(String.format("<line class=\"exit\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" />\n", x1, y1, x2, y2));
+        svgContent.append(String.format("<line class=\"exit\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\"/>", x1, y1, x2, y2));
 
         svgContent.append("</svg>");
 

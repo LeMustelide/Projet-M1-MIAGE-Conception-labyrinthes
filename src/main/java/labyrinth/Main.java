@@ -20,7 +20,6 @@ public class Main {
         Labyrinth labyrinth = new Labyrinth(size, size);
         labyrinth.generatePerfectLabyrinth();
         String svg = generator.generateSVG(labyrinth);
-
         try {
             File myObj = new File("labyrinthe.svg");
             if (myObj.createNewFile()) {
