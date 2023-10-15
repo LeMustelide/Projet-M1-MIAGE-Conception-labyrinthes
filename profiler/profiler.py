@@ -5,7 +5,7 @@ import random
 from concurrent.futures import ProcessPoolExecutor
 import os
 
-commande = './v2/bin/labyrinthe'
+commande = './v3/bin/labyrinthe'
 
 def execute_program(taille):
     debut = time.time()
@@ -20,8 +20,8 @@ def execute_program(taille):
 
 def write_results(resultats):
     # Vérifie si le fichier existe déjà
-    file_exists = os.path.isfile('resultatsV2.csv')
-    with open('resultatsV2.csv', mode='a', newline='') as file:
+    file_exists = os.path.isfile('resultatsV3.csv')
+    with open('resultatsV3.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Si le fichier n'existe pas, écrivez l'en-tête
         if not file_exists:

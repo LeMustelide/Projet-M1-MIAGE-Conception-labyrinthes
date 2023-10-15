@@ -76,5 +76,6 @@ Cela générera un labyrinthe parfait, le convertira en SVG, et sauvegardera cet
 
 La sortie du labyrinthe est visualisée en rouge, tandis que l'entrée est en vert.
 
---- 
+## Graphique du temps d'exécution en fonction de la taille du labyrinthe
 
+![Graphique du temps d'exécution en fonction de la taille du labyrinthe](./graph.png)

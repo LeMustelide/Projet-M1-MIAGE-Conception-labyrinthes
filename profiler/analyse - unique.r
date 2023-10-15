@@ -1,42 +1,34 @@
 # Chargement des fichiers
-donnees1 <- read.csv("profiler/resultatsV1.csv")
-donnees2 <- read.csv("profiler/resultatsV2.csv")
+donnees1 <- read.csv("profiler/resultatsV3.csv")
 
 donnees1 <- subset(donnees1, temps != -1)
-donnees2 <- subset(donnees2, temps != -1)
 
 # Résumés statistiques
 summary(donnees1$temps)
-summary(donnees2$temps)
 
 # Histogrammes des temps d'exécution
-par(mfrow=c(1,2))  # Diviser la fenêtre graphique en une matrice 1x3
+par(mfrow=c(1,2))  # Diviser la fenêtre graphique en une matrice 1x2
 hist(donnees1$temps, main="Fichier 1", xlab="Temps d'exécution")
-hist(donnees2$temps, main="Fichier 2", xlab="Temps d'exécution")
 
 # Boxplot des temps d'exécution
-boxplot(donnees1$temps, donnees2$temps, names=c("Fichier 1", "Fichier 2"), main="Comparaison des temps d'exécution", ylab="Temps d'exécution")
+# boxplot(donnees1$temps, donnees2$temps, names=c("Fichier 1", "Fichier 2"), main="Comparaison des temps d'exécution", ylab="Temps d'exécution")
 
 par(mfrow=c(1,1))
 # Diagrammes de densité des temps d'exécution
-plot(density(donnees1$temps), main="Comparaison des densités de temps d'exécution", xlab="Temps d'exécution", ylim=c(0, max(density(donnees1$temps)$y, density(donnees2$temps)$y)))
-lines(density(donnees2$temps), col="blue")
-legend("topright", legend=c("Fichier 1", "Fichier 2"), col=c("black", "blue"), lty=1)
+plot(density(donnees1$temps), main="Comparaison des densités de temps d'exécution", xlab="Temps d'exécution", ylim=c(0, max(density(donnees1$temps)$y, density(donnees1$temps)$y)))
+# lines(density(donnees2$temps), col="blue")
+# legend("topright", legend=c("Fichier 1", "Fichier 2"), col=c("black", "blue"), lty=1)
 
 # Diagramme de dispersion du temps d'exécution en fonction de la taille
 plot(donnees1$taille, donnees1$temps, col="blue", pch=20, 
-     main="Superposition des fichiers 1 et 2", 
-     xlab="Taille", ylab="Temps d'exécution", xlim = range(c(donnees1$taille, donnees2$taille)), ylim = range(c(donnees1$temps, donnees2$temps)))
-
-# Ajout des points pour le fichier 2
-points(donnees2$taille, donnees2$temps, col="red", pch=17)
+     main="Temps d'exécution en fonction de la taille", 
+     xlab="Taille", ylab="Temps d'exécution", xlim = range(donnees1$taille), ylim = range(donnees1$temps))
 
 # Ajout des lignes de régression
 abline(lm(donnees1$temps ~ donnees1$taille), col="blue")
-abline(lm(donnees2$temps ~ donnees2$taille), col="red")
 
 # Ajout d'une légende
-legend("topleft", legend=c("Fichier 1", "Fichier 2"), col=c("blue", "red"), pch=c(20, 17), bty="n")
+# legend("topleft", legend=c("Fichier 1", "Fichier 2"), col=c("blue", "red"), pch=c(20, 17), bty="n")
 
 # Fonction pour obtenir la prédiction de temps d'exécution pour une taille spécifiée
 predire_temps <- function(donnees, taille) {
@@ -49,28 +41,26 @@ predire_temps <- function(donnees, taille) {
 tailles <- c(100, 500, 1000, 2000, 5000)
 
 # Calcul des prédictions de temps d'exécution pour chaque taille et chaque fichier
-resultats <- matrix(NA, nrow=length(tailles), ncol=2, 
-                    dimnames=list(tailles, c("Fichier 1", "Fichier 2")))
+resultats <- matrix(NA, nrow=length(tailles), ncol=1, 
+                    dimnames=list(tailles, "Labyrinthe"))
 
 for (i in 1:length(tailles)) {
   resultats[i, 1] <- predire_temps(donnees1, tailles[i])
-  resultats[i, 2] <- predire_temps(donnees2, tailles[i])
 }
 
 # Affichage des résultats
 print(resultats)
 
 # Trouver le fichier avec la prédiction de temps d'exécution la plus basse pour chaque taille
-meilleur_fichier <- apply(resultats, 1, function(x) names(x)[which.min(x)])
-print(meilleur_fichier)
-
-coef1 <- coef(lm(donnees1$temps ~ donnees1$taille))
-coef2 <- coef(lm(donnees2$temps ~ donnees2$taille))
-
-intersection_taille <- (coef2[1] - coef1[1]) / (coef1[2] - coef2[2])
-
-# Afficher la taille d'intersection
-print(paste("Le fichier 2 est meilleur que le fichier 1 à partir de la taille", round(intersection_taille)))
+# meilleur_fichier <- apply(resultats, 1, function(x) names(x)[which.min(x)])
+# print(meilleur_fichier)
+# 
+# coef1 <- coef(lm(donnees1$temps ~ donnees1$taille))
+# 
+# intersection_taille <- (coef2[1] - coef1[1]) / (coef1[2] - coef2[2])
+# 
+# # Afficher la taille d'intersection
+# print(paste("Le fichier 2 est meilleur que le fichier 1 à partir de la taille", round(intersection_taille)))
 
 
 
