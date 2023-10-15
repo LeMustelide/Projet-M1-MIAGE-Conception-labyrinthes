@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Exécuter le programme Java avec la taille donnée comme argument
+java -jar Labyrinthe.jar $1

@@ -2,6 +2,11 @@ package labyrinth;
 
 import labyrinth.Labyrinth;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 class LabyrinthSVGGenerator {
 
     public String generateSVG(Labyrinth labyrinth) {
@@ -11,7 +16,7 @@ class LabyrinthSVGGenerator {
         int width = (labyrinth.verticalWalls[0].length) * cellSize;
         int height = (labyrinth.horizontalWalls.length) * cellSize;
 
-        svgContent.append(String.format("<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\">\n", width, height));
+        svgContent.append("<svg width=\"").append(width).append("\" height=\"").append(height).append("\" xmlns=\"http://www.w3.org/2000/svg\">\n");
         svgContent.append("<style>"
                 + ".entry{stroke:green;stroke-width:3;}"
                 + ".exit{stroke:red;stroke-width:3;}"
@@ -28,7 +33,7 @@ class LabyrinthSVGGenerator {
                     int x2 = x1;
                     int y2 = y1 + cellSize;
                     svgContent.append("<line x1=\"").append(x1).append("\" y1=\"").append(y1)
-                            .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>\n");
+                            .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\" />\n");
                 }
             }
         }
@@ -42,7 +47,7 @@ class LabyrinthSVGGenerator {
                     int x2 = x1 + cellSize;
                     int y2 = y1;
                     svgContent.append("<line x1=\"").append(x1).append("\" y1=\"").append(y1)
-                            .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>\n");
+                            .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\" />\n");
                 }
             }
         }
@@ -51,13 +56,15 @@ class LabyrinthSVGGenerator {
         int y1 = labyrinth.start * cellSize + 5;
         int x2 = x1;
         int y2 = y1 + cellSize;
-        svgContent.append(String.format("<line class=\"entry\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\"/>", x1, y1, x2, y2));
+        svgContent.append("<line class=\"entry\" x1=\"").append(x1).append("\" y1=\"").append(y1)
+                .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>");
 
         x1 = (labyrinth.horizontalWalls.length-1) * cellSize + 5;
         y1 = labyrinth.end * cellSize + 5;
         x2 = x1;
         y2 = y1 + cellSize;
-        svgContent.append(String.format("<line class=\"exit\" x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\"/>", x1, y1, x2, y2));
+        svgContent.append("<line class=\"exit\" x1=\"").append(x1).append("\" y1=\"").append(y1)
+                .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>");
 
         svgContent.append("</svg>");
 

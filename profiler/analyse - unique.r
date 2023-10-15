@@ -91,7 +91,7 @@ modele2 <- lm(log_temps ~ taille, data = donnees2)
 summary(modele2)
 
 # Diagramme de dispersion du log(temps d'exécution) en fonction de la taille
-plot(donnees1$taille, donnees1$log_temps, col="blue", pch=20, 
+plot(donnees2$taille, donnees2$log_temps, col="blue", pch=20, 
      main="Superposition des fichiers 1 et 2", 
      xlab="Taille", ylab="log(Temps d'exécution)", 
      xlim = range(c(donnees1$taille, donnees2$taille)), 
@@ -102,7 +102,7 @@ points(donnees2$taille, donnees2$log_temps, col="red", pch=17)
 
 # Ajout des lignes de régression
 abline(modele1, col="blue")
-abline(modele2, col="red")
+abline(modele2, col="blue")
 
 # Ajout d'une légende
 legend("topleft", legend=c("Fichier 1", "Fichier 2"), col=c("blue", "red"), pch=c(20, 17), bty="n")

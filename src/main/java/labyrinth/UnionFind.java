@@ -18,11 +18,18 @@ public class UnionFind {
     }
 
     public int find(int x) {
-        while (x != parent[x]) {
-            parent[x] = parent[parent[x]];  // Compression de chemin lors de la recherche
-            x = parent[x];
+        int root = x;
+        // Trouver la racine
+        while (root != parent[root]) {
+            root = parent[root];
         }
-        return x;
+        // Compresser le chemin
+        while (x != root) {
+            int next = parent[x];
+            parent[x] = root;
+            x = next;
+        }
+        return root;
     }
 
     public void union(int x, int y) {

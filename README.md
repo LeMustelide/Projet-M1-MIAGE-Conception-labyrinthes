@@ -43,27 +43,38 @@ L'apport principal de notre travail réside dans l'adoption d'une structure Unio
 
 ## Compilation
 
-Pour compiler l'application, utilisez la commande suivante :
+Pour compiler l'application, utilisez une des commandes suivantes :
+
+### Avec Maven
 
 ```bash
 mvn clean package
 ```
 
-## Execution
+### Avec JavaC
 
-Une fois le projet compilé, assurez-vous d'être dans le répertoire ./labyrinthe/bin/ pour exécuter l'application.
+```bash
+javac -d out src/main/java/labyrinth/*.java
+jar cvfm Labyrinthe.jar META-INF/MANIFEST.MF -C out/ .
+java -jar Labyrinthe.jar
+```
+
+## Execution
 
 Pour exécuter l'application, utilisez la commande suivante :
 
 ```bash
 ./labyrinthe [TAILLE]
 ```
+`
+Si vous avez compilé le projet avec Maven, assurez-vous d'être dans le répertoire ./labyrinthe/bin/ pour exécuter l'application.
+`
 
 Cela générera un labyrinthe parfait, le convertira en SVG, et sauvegardera cette représentation SVG dans un fichier appelé `labyrinthe.svg`.
 
 ## Note
 
-La sortie du labyrinthe est visualisée en vert, tandis que l'entrée est en rouge.
+La sortie du labyrinthe est visualisée en rouge, tandis que l'entrée est en vert.
 
 --- 
 
