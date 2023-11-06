@@ -5,6 +5,5 @@ public interface IFacade {
 
     void generate(int width, int height, int seed);
     void solve(String labyrinth);
-    void
 
 }
