@@ -1,0 +1,72 @@
+.root {
+    -fx-background-color: #242529;
+}
+
+.button {
+    -fx-background-color: #3071a9;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15 8 15;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+
+.container {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #373940 0%, #3b3c43 100%);
+    -fx-padding: 30;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
+}
+
+.container-2 {
+    -fx-background-color: #fff27a;
+    -fx-padding: 30;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
+}
+
+.text-field {
+    -fx-background-color: #4c4c52;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15 8 15;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
+}
+
+.button-generate {
+    -fx-background-color: #32a930;
+}
+
+.button-download {
+    -fx-background-color: rgb(48, 113, 169)
+}
+
+
+
+
+
+
+/* Style général de la ComboBox */
+.combo-box {
+    -fx-background-color: #4c4c52;
+    -fx-border-color: #C8C8C8;
+    -fx-padding: 5px;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
+}
+
+/* Style de la liste des éléments déroulants */
+.combo-box .list-cell {
+    -fx-background-color: #4c4c52;
+    -fx-text-fill: #ffffff;
+    /* -fx-padding: 10px; */
+}
