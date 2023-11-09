@@ -22,12 +22,27 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>19</version>
+            <version>21</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>19</version>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-codec</artifactId>
+            <version>1.13</version>
         </dependency>
     </dependencies>
     <build>
@@ -40,7 +55,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>labyrinth.Main</mainClass>
+                            <mainClass>labyrinth.Main3D</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -75,7 +90,7 @@
                                 <argument>--main-jar</argument>
                                 <argument>Projet-M1-MIAGE-Conception-labyrinthes-1.2.0.jar</argument>
                                 <argument>--main-class</argument>
-                                <argument>labyrinth.Main</argument>
+                                <argument>labyrinth.Main3D</argument>
                             </arguments>
                         </configuration>
                     </execution>
