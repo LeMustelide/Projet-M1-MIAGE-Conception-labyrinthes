@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: labyrinth.Main3D
+Main-Class: labyrinth.view.Main3D

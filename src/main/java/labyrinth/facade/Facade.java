@@ -1,17 +1,16 @@
 package labyrinth.facade;
 
 import labyrinth.Labyrinth;
-import labyrinth.LabyrinthCanvasGenerator;
-import labyrinth.LabyrinthSVGGenerator;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class Facade implements IFacade{
 
     private Labyrinth labyrinth;
+
+    private static Facade instance = new Facade();
+
+    private Facade() {
+    }
+
     @Override
     public String generate(int width, int height) {
         long seed = 10;
@@ -50,5 +49,9 @@ public class Facade implements IFacade{
     @Override
     public void save(String labyrinth, String filename) {
 
+    }
+
+    public static Facade getInstance() {
+        return instance;
     }
 }

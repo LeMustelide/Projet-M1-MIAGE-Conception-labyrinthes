@@ -7,6 +7,9 @@ public class Labyrinth {
     private Random rand = new Random();
     private boolean[][] verticalWalls;    // Murs verticaux: (m+1) x n
     private boolean[][] horizontalWalls;  // Murs horizontaux: m x (n+1)
+
+    private int playerX = 0;
+    private int playerY;
     UnionFind uf;
 
     private int start, end;
@@ -89,8 +92,27 @@ public class Labyrinth {
         start = rand.nextInt(col);
         end = rand.nextInt(col);
 
+        playerX = 0;
+        playerY = start;
+
         verticalWalls[start][0] = false;
         verticalWalls[end][line] = false;
+    }
+
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
+    }
+
+    // Méthode pour déplacer le joueur
+    public void movePlayer(int newX, int newY) {
+        if (isMovePossible2D(newX, newY)) {
+            this.playerX = newX;
+            this.playerY = newY;
+        }
     }
 
 
@@ -250,6 +272,43 @@ public class Labyrinth {
         return false; // Par défaut, le mouvement n'est pas possible
     }
 
+    public boolean isMovePossible2D(int newX, int newY) {
+        // Vérifier si la nouvelle position est à l'intérieur des limites du labyrinthe
+        if (newX < 0 || newY < 0 || newX >= verticalWalls[0].length || newY >= horizontalWalls.length) {
+            return false;
+        }
+
+        // Déplacement vers l'est (droite)
+        if (newX > playerX) {
+            if (verticalWalls[playerY][playerX + 1]) {  // Vérifier s'il y a un mur à droite de la position actuelle
+                return false;
+            }
+        }
+
+        // Déplacement vers l'ouest (gauche)
+        if (newX < playerX) {
+            if (verticalWalls[playerY][playerX]) {  // Vérifier s'il y a un mur à gauche de la position actuelle
+                return false;
+            }
+        }
+
+        // Déplacement vers le sud (bas)
+        if (newY > playerY) {
+            if (horizontalWalls[playerY + 1][playerX]) {  // Vérifier s'il y a un mur en dessous de la position actuelle
+                return false;
+            }
+        }
+
+        // Déplacement vers le nord (haut)
+        if (newY < playerY) {
+            if (horizontalWalls[playerY][playerX]) {  // Vérifier s'il y a un mur au-dessus de la position actuelle
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private int[] getNextMove(int x, int y, int direction) {
         switch (direction) {
             case 0: return new int[]{x + 1, y}; // Est
@@ -278,6 +337,11 @@ public class Labyrinth {
 
     public List<int[]> getPath() {
         return path;
+    }
+
+    public void setPlayerPosition(int x, int y) {
+        this.playerX = x;
+        this.playerY = y;
     }
 
 }

@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setMaximized(true);
-        Controller controller = new Controller(new Facade(), stage);
+        Controller controller = new Controller(Facade.getInstance(), stage);
         controller.run();
     }
     private Stage stage;

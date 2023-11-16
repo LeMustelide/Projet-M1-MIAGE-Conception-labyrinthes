@@ -54,7 +54,7 @@
                            <children>
                               <AnchorPane VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <ScrollPane fitToHeight="true" fitToWidth="true" focusTraversable="false" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <content>
                                           <Canvas fx:id="canvas" height="200.0" width="200.0" />
                                        </content>
@@ -65,10 +65,11 @@
                                  <children>
                                     <Button fx:id="btnGenerate" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Generate" />
                                     <TextField fx:id="size" maxHeight="1.7976931348623157E308" prefHeight="1000.0" promptText="size" />
-                                    <TextField fx:id="seed" maxHeight="1.7976931348623157E308" prefHeight="1000.0" promptText="seed" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="seed" maxHeight="1.7976931348623157E308" prefHeight="900.0" promptText="seed" HBox.hgrow="ALWAYS" />
                                     <ComboBox fx:id="algoList" maxHeight="-Infinity" prefWidth="150.0" promptText="test" />
                                     <Button fx:id="btnSolve" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Solve" />
-                                    <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Play" />
+                                    <Button fx:id="btnPlay" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Play" />
+                                    <Button fx:id="btn3D" maxHeight="1.7976931348623157E308" minWidth="0.0" prefWidth="0" mnemonicParsing="false" prefHeight="100.0" styleClass="button-3d" text="3D" />
                                     <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-download" text="Download" />
                                  </children>
                                  <padding>

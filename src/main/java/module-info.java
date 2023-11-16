@@ -5,4 +5,6 @@ module Projet.M1.MIAGE.Conception.labyrinthes {
 
     opens labyrinth.view to javafx.fxml;
     exports labyrinth;
+    exports labyrinth.view;
+    exports labyrinth.model;
 }

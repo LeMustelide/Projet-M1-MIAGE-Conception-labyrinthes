@@ -54,6 +54,11 @@
 	-fx-background-color: rgb(48, 113, 169);
 }
 
+.button-3d {
+	-fx-background-color: #4c4c52;
+}
+
+
 .scroll-pane > .viewport {
 	-fx-background-color: transparent;
 }

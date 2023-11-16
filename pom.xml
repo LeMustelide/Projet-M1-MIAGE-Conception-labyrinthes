@@ -6,22 +6,22 @@
 
     <groupId>org.example</groupId>
     <artifactId>Projet-M1-MIAGE-Conception-labyrinthes</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>19</version>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
+            <artifactId>javafx-controls</artifactId>
             <version>21</version>
         </dependency>
         <dependency>
@@ -48,6 +48,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>Main</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -55,7 +63,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>labyrinth.Main3D</mainClass>
+                            <mainClass>labyrinth.view.Main3D</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -88,9 +96,9 @@
                                 <argument>--input</argument>
                                 <argument>target</argument>
                                 <argument>--main-jar</argument>
-                                <argument>Projet-M1-MIAGE-Conception-labyrinthes-1.2.0.jar</argument>
+                                <argument>Projet-M1-MIAGE-Conception-labyrinthes-1.3.0.jar</argument>
                                 <argument>--main-class</argument>
-                                <argument>labyrinth.Main3D</argument>
+                                <argument>labyrinth.view.Main3D</argument>
                             </arguments>
                         </configuration>
                     </execution>

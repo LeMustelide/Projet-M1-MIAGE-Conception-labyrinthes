@@ -1,10 +1,8 @@
 package labyrinth.controller;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import labyrinth.Labyrinth;
-import labyrinth.LabyrinthCanvasGenerator;
+import labyrinth.view.LabyrinthCanvasGenerator;
 import labyrinth.facade.Facade;
 import labyrinth.view.Home;
 
@@ -33,12 +31,18 @@ public class Controller {
         home.getGraphicsContext().getCanvas().setWidth(size * 20);
         home.getGraphicsContext().getCanvas().setHeight(size * 20);
         generator.generateCanvas(labyrinth, home.getGraphicsContext());
-        // Je voudrais redimensionner le canvas en fonction de la taille du labyrinthe
-
     }
 
     public void solve(String algo) {
         facade.solve(algo);
         generator.drawPath(home.getGraphicsContext(), labyrinth.getPath());
+    }
+
+    public boolean canMove(int x, int y) {
+        return labyrinth.isMovePossible2D(x, y);
+    }
+
+    public Labyrinth getLabyrinth() {
+        return labyrinth;
     }
 }
