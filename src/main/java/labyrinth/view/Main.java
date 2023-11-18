@@ -1,4 +1,4 @@
-package labyrinth;
+package labyrinth.view;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

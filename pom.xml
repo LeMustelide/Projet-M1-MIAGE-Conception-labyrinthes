@@ -9,8 +9,8 @@
     <version>1.3.0</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -34,16 +34,6 @@
             <artifactId>javafx-web</artifactId>
             <version>21</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-transcoder</artifactId>
-            <version>1.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-codec</artifactId>
-            <version>1.13</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -52,7 +42,9 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>Main</mainClass>
+                    <jlinkImageName>labyrinth</jlinkImageName>
+                    <launcher>launcher</launcher>
+                    <mainClass>labyrinth.view.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -72,39 +64,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>18</source>
+                    <target>18</target>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${java.home}/bin/jpackage</executable>
-                            <arguments>
-                                <argument>--type</argument>
-                                <argument>app-image</argument>
-                                <argument>--name</argument>
-                                <argument>labyrinthe</argument>
-                                <argument>--input</argument>
-                                <argument>target</argument>
-                                <argument>--main-jar</argument>
-                                <argument>Projet-M1-MIAGE-Conception-labyrinthes-1.3.0.jar</argument>
-                                <argument>--main-class</argument>
-                                <argument>labyrinth.view.Main3D</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>18</release>
+                </configuration>
             </plugin>
-
         </plugins>
     </build>
 

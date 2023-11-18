@@ -1,10 +1,8 @@
 module Projet.M1.MIAGE.Conception.labyrinthes {
     requires javafx.controls;
     requires javafx.fxml;
-    requires batik.transcoder;
+    requires javafx.graphics;
 
     opens labyrinth.view to javafx.fxml;
-    exports labyrinth;
     exports labyrinth.view;
-    exports labyrinth.model;
 }
