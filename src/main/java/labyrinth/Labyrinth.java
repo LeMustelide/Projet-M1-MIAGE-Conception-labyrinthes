@@ -306,6 +306,9 @@ public class Labyrinth {
             }
         }
 
+        if(newY == end && newX == horizontalWalls.length - 1)
+            return false; // TODO: victoire
+
         return true;
     }
 

@@ -48,14 +48,10 @@ public class Home {
         vue.btn3D.setOnAction(vue::handle3D);
 
         vue.canvas.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Si le focus est perdu (newValue est false)
+            if (!newValue && !vue.btnPlay.isFocusWithin()) { // Si le focus est perdu (newValue est false)
                 vue.gameState = GameState.PAUSED;
                 vue.btnPlay.setText("Resume");
                 vue.btnPlay.setStyle("-fx-background-color: orange;");
-            } else {
-                vue.gameState = GameState.PLAYING;
-                vue.btnPlay.setText("Pause");
-                vue.btnPlay.setStyle("-fx-background-color: #32a930;");
             }
         });
         vue.size.textProperty().addListener(new ChangeListener<String>() {
@@ -163,6 +159,8 @@ public class Home {
     private int playerX = 0; // Position initiale X du joueur
     private int playerY = 0; // Position initiale Y du joueur
 
+    private boolean isSolved = false;
+
     public void show() {
         this.getStage().setScene(this.getScene());
         this.getStage().show();
@@ -171,7 +169,6 @@ public class Home {
     private void movePlayer(int dx, int dy) {
         int newX = playerX + dx;
         int newY = playerY + dy;
-        System.out.println("newX = " + newX + ", newY = " + newY);
         // Vérifiez si le mouvement est possible
         if (controller.canMove(newX, newY)) {
             clearPlayer();
@@ -214,18 +211,32 @@ public class Home {
 
     private void handleSolve(javafx.event.ActionEvent actionEvent) {
         if(controller.getLabyrinth() == null) return;
-        controller.solve(this.algoList.getValue().toString());
+
+        if(isSolved) {
+            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            controller.regenerate();
+            if(gameState == GameState.PLAYING || gameState == GameState.PAUSED) {
+                drawPlayer();
+            }
+        } else {
+            controller.solve(this.algoList.getValue().toString());
+        }
+        this.isSolved = !isSolved;
+
     }
 
     private void handlePlay(ActionEvent actionEvent) {
         if(controller.getLabyrinth() == null) return;
         switch (gameState) {
             case PLAYING:
+                seed.requestFocus();
+                System.out.println("PAUSED");
                 gameState = GameState.PAUSED;
                 btnPlay.setText("Resume");
                 btnPlay.setStyle("-fx-background-color: orange;");
                 break;
             case PAUSED:
+                System.out.println("PLAYING");
                 gameState = GameState.PLAYING;
                 tpPlayer(controller.getLabyrinth().getPlayerX(), controller.getLabyrinth().getPlayerY());
                 drawPlayer();

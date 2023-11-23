@@ -11,6 +11,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape3D;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import labyrinth.Labyrinth;
@@ -44,7 +45,10 @@ public class Main3D extends Application {
     private double anchorAngleY = 0;
     private final double mouseSensitivityX = 0.06;
     private final double mouseSensitivityY = 0.03;
-    private static final double DRAG_THRESHOLD = 5;
+
+    private Text fpsText = new Text();
+    private long lastUpdate = 0;
+    private boolean fpsVisible = false;
 
     private Labyrinth labyrinth;
 
@@ -59,6 +63,8 @@ public class Main3D extends Application {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         primaryStage.setMaximized(true);
         Scene scene = new Scene(root, 1020, 1020, true);
+
+
         PointLight pointLight = new PointLight();
         pointLight.setColor(Color.WHITE); // Vous pouvez ajuster la couleur selon vos besoins
         pointLight.setLayoutX(150); // Position en X

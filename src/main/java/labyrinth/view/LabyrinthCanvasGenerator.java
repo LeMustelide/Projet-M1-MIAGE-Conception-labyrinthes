@@ -1,6 +1,5 @@
 package labyrinth.view;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import labyrinth.Labyrinth;
@@ -8,7 +7,6 @@ import labyrinth.Labyrinth;
 import java.util.List;
 
 public class LabyrinthCanvasGenerator {
-
     private int cellSize = 20;  // Taille de chaque cellule en pixels
 
     public void generateCanvas(Labyrinth labyrinth, GraphicsContext gc) {

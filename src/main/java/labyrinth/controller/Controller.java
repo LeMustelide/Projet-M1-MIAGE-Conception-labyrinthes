@@ -33,6 +33,10 @@ public class Controller {
         generator.generateCanvas(labyrinth, home.getGraphicsContext());
     }
 
+    public void regenerate() {
+        generator.generateCanvas(labyrinth, home.getGraphicsContext());
+    }
+
     public void solve(String algo) {
         facade.solve(algo);
         generator.drawPath(home.getGraphicsContext(), labyrinth.getPath());
