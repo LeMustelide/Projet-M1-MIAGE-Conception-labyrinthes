@@ -26,10 +26,10 @@ public class Controller {
         showHome();
     }
 
-    public void generate(int size, long seed) {
-        labyrinth = facade.generate(size, size, seed);
-        home.getGraphicsContext().getCanvas().setWidth(size * 20);
-        home.getGraphicsContext().getCanvas().setHeight(size * 20);
+    public void generate(int sizex, int sizey, long seed) {
+        labyrinth = facade.generate(sizex, sizey, seed);
+        home.getGraphicsContext().getCanvas().setWidth(sizey * 20);
+        home.getGraphicsContext().getCanvas().setHeight(sizex * 20);
         generator.generateCanvas(labyrinth, home.getGraphicsContext());
     }
 

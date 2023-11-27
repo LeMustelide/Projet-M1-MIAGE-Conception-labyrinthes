@@ -54,12 +54,21 @@ public class Home {
                 vue.btnPlay.setStyle("-fx-background-color: orange;");
             }
         });
-        vue.size.textProperty().addListener(new ChangeListener<String>() {
+        vue.sizex.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue){
                 // Si le nouveau texte n'est pas numérique ou dépasse la longueur maximale, rétablissez l'ancienne valeur
                 if (!newValue.matches("\\d*") || newValue.length() > 4) {
-                    vue.size.setText(oldValue);
+                    vue.sizex.setText(oldValue);
+                }
+            }
+        });
+        vue.sizey.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue){
+                // Si le nouveau texte n'est pas numérique ou dépasse la longueur maximale, rétablissez l'ancienne valeur
+                if (!newValue.matches("\\d*") || newValue.length() > 4) {
+                    vue.sizey.setText(oldValue);
                 }
             }
         });
@@ -95,7 +104,10 @@ public class Home {
     private Button btnGenerate;
 
     @FXML
-    private TextField size;
+    private TextField sizex;
+
+    @FXML
+    private TextField sizey;
 
     @FXML
     private TextField seed;
@@ -201,9 +213,10 @@ public class Home {
     private void handleGenerate(javafx.event.ActionEvent actionEvent) {
         Random random = new Random();
         canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        if(size.getText().isEmpty()) size.setText("10");
+        if(sizex.getText().isEmpty()) sizex.setText("10");
+        if(sizey.getText().isEmpty()) sizey.setText("10");
         if(seed.getText().isEmpty()) seed.setText(random.nextInt(10000000) + "");
-        controller.generate(Integer.parseInt(size.getText()), Long.parseLong(seed.getText()));
+        controller.generate(Integer.parseInt(sizex.getText()), Integer.parseInt(sizey.getText()), Long.parseLong(seed.getText()));
         this.gameState = GameState.STOPPED;
         btnPlay.setText("Play");
         btnPlay.setStyle("-fx-background-color: #32a930;");

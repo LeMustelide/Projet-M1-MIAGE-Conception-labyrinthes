@@ -488,23 +488,26 @@ public class Main3D extends Application {
 
     private void drawChunckLimit() {
         double gridHeight = 255;
-        double size = Math.sqrt(this.chunks.size());
-        for (int x = 0; x <= size * CHUNK_SIZE; x += CHUNK_SIZE) {
-            Line line = new Line(x, 0, x, size * CHUNK_SIZE);
-            line.setStroke(Color.RED);
+        // problème de taille de la grille
+        double sizex = this.labyrinth.getVerticalWalls().length;
+        double sizey = this.labyrinth.getHorizontalWalls()[0].length;
+
+        for (int x = 0; x <= sizey * CHUNK_SIZE; x += CHUNK_SIZE) {
+            Line line = new Line(x, 0, x, sizex * CHUNK_SIZE);
+            line.setStroke(Color.GREEN);
             line.setId("chunkGrid"); // Pour identifier facilement les lignes du cadrillage
             root.getChildren().add(line);
         }
 
-        for (int y = 0; y <= size * CHUNK_SIZE; y += CHUNK_SIZE) {
-            Line line = new Line(0, y, size * CHUNK_SIZE, y);
+        for (int y = 0; y <= sizex * CHUNK_SIZE; y += CHUNK_SIZE) {
+            Line line = new Line(0, y, sizey * CHUNK_SIZE, y);
             line.setStroke(Color.RED);
             line.setId("chunkGrid");
             root.getChildren().add(line);
         }
 
-        for (int x = 0; x <= size * CHUNK_SIZE; x += CHUNK_SIZE) {
-            for (int y = 0; y <= size * CHUNK_SIZE; y += CHUNK_SIZE) {
+        for (int x = 0; x <= sizey * CHUNK_SIZE; x += CHUNK_SIZE) {
+            for (int y = 0; y <= sizex * CHUNK_SIZE; y += CHUNK_SIZE) {
                 Box verticalLine = new Box(0.1, 0.1, gridHeight); // Utilisez Box avec une très petite largeur et profondeur
                 verticalLine.setTranslateX(x);
                 verticalLine.setTranslateY(y);
