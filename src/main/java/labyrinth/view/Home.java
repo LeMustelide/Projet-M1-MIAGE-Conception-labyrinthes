@@ -189,7 +189,7 @@ public class Home {
             drawPlayer();
         }
 
-        controller.getLabyrinth().movePlayer(newX, newY);
+        controller.getLabyrinth().getPlayerMovement().movePlayer(newX, newY);
         drawPlayer();
     }
 
@@ -197,7 +197,7 @@ public class Home {
         clearPlayer();
         playerX = x;
         playerY = y;
-        controller.getLabyrinth().movePlayer(x, y);
+        controller.getLabyrinth().getPlayerMovement().movePlayer(x, y);
         drawPlayer();
     }
 
@@ -251,7 +251,7 @@ public class Home {
             case PAUSED:
                 System.out.println("PLAYING");
                 gameState = GameState.PLAYING;
-                tpPlayer(controller.getLabyrinth().getPlayerX(), controller.getLabyrinth().getPlayerY());
+                tpPlayer(controller.getLabyrinth().getPlayerMovement().getPlayerX(), controller.getLabyrinth().getPlayerMovement().getPlayerY());
                 drawPlayer();
                 btnPlay.setText("Pause");
                 btnPlay.setStyle("-fx-background-color: #32a930;");
@@ -260,8 +260,8 @@ public class Home {
             default:
                 this.gameState = GameState.PLAYING;
                 clearPlayer();
-                this.playerX = controller.getLabyrinth().getPlayerX();
-                this.playerY = controller.getLabyrinth().getPlayerY();
+                this.playerX = controller.getLabyrinth().getPlayerMovement().getPlayerX();
+                this.playerY = controller.getLabyrinth().getPlayerMovement().getPlayerY();
                 drawPlayer();
                 canvas.requestFocus();
                 btnPlay.setText("Pause");

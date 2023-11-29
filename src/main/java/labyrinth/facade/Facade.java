@@ -1,10 +1,11 @@
 package labyrinth.facade;
 
-import labyrinth.Labyrinth;
+import labyrinth.LabyrinthGenerator;
+import labyrinth.SquareLabyrinth;
 
 public class Facade implements IFacade{
 
-    private Labyrinth labyrinth;
+    private SquareLabyrinth labyrinth;
 
     private static Facade instance = new Facade();
 
@@ -19,10 +20,11 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public Labyrinth generate(int width, int height, long seed) {
+    public SquareLabyrinth generate(int width, int height, long seed) {
         //LabyrinthSVGGenerator generator = new LabyrinthSVGGenerator();
-        this.labyrinth = new Labyrinth(width, height);
-        this.labyrinth.generatePerfectLabyrinth(seed);
+        this.labyrinth = new SquareLabyrinth(width, height, 4);
+        LabyrinthGenerator generator = new LabyrinthGenerator();
+        generator.generatePerfectLabyrinth(seed, this.labyrinth);
         return this.labyrinth;
     }
 

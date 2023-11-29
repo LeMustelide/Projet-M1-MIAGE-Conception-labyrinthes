@@ -4,14 +4,11 @@ import labyrinth.view.Shape;
 
 import java.util.*;
 
-public class Labyrinth extends LabyrinthBase {
-    UnionFind uf;
-
-    private List<int[]> path;
+public class SquareLabyrinth extends LabyrinthBase {
 
     private Shape shape;
 
-    public Labyrinth(int m, int n, int edges) {
+    public SquareLabyrinth(int m, int n, int edges) {
         super(m, n);
         super.addVerticalWalls(m, n);
         this.uf = new UnionFind(m * n);
@@ -26,93 +23,6 @@ public class Labyrinth extends LabyrinthBase {
             for (int j = 0; j < n; j++) {
                 horizontalWalls[i][j] = true;
             }
-        }
-    }
-
-    public void generatePerfectLabyrinth(long seed) {
-        this.rand = new Random(seed);
-        int line = verticalWalls.length;
-        int col = horizontalWalls[0].length;
-
-        ArrayList<Integer> walls = new ArrayList<>();
-
-        for (int y = 0; y < line; y++) {
-            for (int x = 0; x < col; x++) {
-                if (y < line - 1) {
-                    walls.add(encodeWall(x, y, true));
-                }
-                if (x < col - 1) {
-                    walls.add(encodeWall(x, y, false));
-                }
-            }
-        }
-
-        shuffle(walls);
-
-        for (int wall : walls) {
-            int x, y;
-            boolean isHorizontal;
-            x = decodeX(wall);
-            y = decodeY(wall);
-            isHorizontal = decodeOrientation(wall);
-
-            int cell1Id, cell2Id;
-            if (isHorizontal) {
-                cell1Id = (y * col + x);
-                cell2Id = ((y + 1) * col + x);
-                int cell1Parent = uf.find(cell1Id);
-                int cell2Parent = uf.find(cell2Id);
-                if (cell1Parent != cell2Parent && cell2Parent != -1 && horizontalWalls[y+1][x]) {
-                    horizontalWalls[y+1][x] = false;
-                    uf.union(cell1Id, cell2Id);
-                }
-            } else {
-                cell1Id = (y * col + x);
-                cell2Id = (y * col + (x + 1));
-                int cell1Parent = uf.find(cell1Id);
-                int cell2Parent = uf.find(cell2Id);
-                if (cell1Parent != cell2Parent && cell2Parent != -1 && verticalWalls[y][x+1]) {
-                    verticalWalls[y][x+1] = false;
-                    uf.union(cell1Id, cell2Id);
-                }
-            }
-
-            if (uf.numSets == 1) {
-                break;
-            }
-        }
-
-        start = rand.nextInt(0, verticalWalls.length);
-        end = rand.nextInt(0, verticalWalls.length);
-
-        playerMovement.setPlayerX(0);
-        playerMovement.setPlayerY(start);
-        verticalWalls[start][0] = false;
-        verticalWalls[end][verticalWalls[0].length-1] = false;
-    }
-
-
-    private int encodeWall(int x, int y, boolean isHorizontal) {
-        return (x << 1) | (y << 16) | (isHorizontal ? 1 : 0);
-    }
-
-    private int decodeX(int wall) {
-        return (wall >> 1) & 0x7FFF;
-    }
-
-    private int decodeY(int wall) {
-        return (wall >> 16) & 0x7FFF;
-    }
-
-    private boolean decodeOrientation(int wall) {
-        return (wall & 1) == 1;
-    }
-
-    private void shuffle(List<?> list) {
-        int size = list.size();
-        for (int i = size - 1; i > 0; i--) {
-            int index = rand.nextInt(i + 1);
-            Collections.swap(list, i, index);
         }
     }
 
@@ -160,63 +70,6 @@ public class Labyrinth extends LabyrinthBase {
             }
         }
         return path;
-    }
-
-    public List<int[]> solveWithDijkstraAlgorithm() {
-        // Initialisation
-        int rows = horizontalWalls.length;
-        int cols = verticalWalls[0].length;
-        int[][] distances = new int[cols][rows];
-        int[][] prev = new int[cols][rows];
-        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> distances[a[0]][a[1]] - distances[b[0]][b[1]]);
-
-        for (int[] row : distances) Arrays.fill(row, Integer.MAX_VALUE); // INFINITY
-        for (int[] row : prev) Arrays.fill(row, -1); // Undefined
-
-        // Source distance
-        distances[0][start] = 0;
-        queue.offer(new int[]{0, start});
-
-        // Tant que la file d'attente n'est pas vide
-        while (!queue.isEmpty()) {
-            int[] u = queue.poll();
-            int x = u[0], y = u[1];
-
-            // Si c'est la sortie
-            if (x == cols - 1 && y == end) break;
-
-            // Vérification des voisins (haut, bas, gauche, droite)
-            for (int[] direction : new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}) {
-                int newX = x + direction[0], newY = y + direction[1];
-                if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && isMovePossible(x, y, newX, newY)) {
-                    int newDist = distances[x][y] + 1; // Coût de déplacement uniforme
-                    if (newDist < distances[newX][newY]) {
-                        distances[newX][newY] = newDist;
-                        prev[newX][newY] = encodePosition(x, y); // Encode current position as previous
-                        queue.offer(new int[]{newX, newY});
-                    }
-                }
-            }
-        }
-
-        // Reconstruire le chemin
-        path = new ArrayList<>();
-        int[] tracePos = {cols - 1, end};
-        while (tracePos != null) {
-            path.add(0, tracePos); // Ajoute au début pour reconstruire le chemin
-            tracePos = decodePosition(prev[tracePos[0]][tracePos[1]]); // Decode to get previous position
-        }
-
-        return path;
-    }
-
-    private int encodePosition(int x, int y) {
-        return x * horizontalWalls[0].length + y; // Encode position as single integer
-    }
-
-    private int[] decodePosition(int pos) {
-        if (pos == -1) return null;
-        return new int[]{pos / horizontalWalls[0].length, pos % horizontalWalls[0].length}; // Decode position
     }
 
     private boolean isMovePossible(int x, int y, int newX, int newY) {

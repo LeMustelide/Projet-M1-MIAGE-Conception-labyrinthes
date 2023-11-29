@@ -1,11 +1,11 @@
 package labyrinth.facade;
 
-import labyrinth.Labyrinth;
+import labyrinth.SquareLabyrinth;
 
 public interface IFacade {
     String generate(int width, int height);
 
-    Labyrinth generate(int width, int height, long seed);
+    SquareLabyrinth generate(int width, int height, long seed);
     void solve(String algo);
 
     void play();

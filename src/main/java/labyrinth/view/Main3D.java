@@ -14,7 +14,7 @@ import javafx.scene.shape.Shape3D;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import labyrinth.Labyrinth;
+import labyrinth.SquareLabyrinth;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,9 +50,9 @@ public class Main3D extends Application {
     private long lastUpdate = 0;
     private boolean fpsVisible = false;
 
-    private Labyrinth labyrinth;
+    private SquareLabyrinth labyrinth;
 
-    public Main3D(Labyrinth labyrinth) {
+    public Main3D(SquareLabyrinth labyrinth) {
         this.labyrinth = labyrinth;
     }
 
@@ -142,8 +142,8 @@ public class Main3D extends Application {
         }
 
         if(this.labyrinth != null) {
-            camera.setTranslateX(this.labyrinth.getPlayerX() * 20 + 5);
-            camera.setTranslateY(this.labyrinth.getPlayerY() * 20 + 5);
+            camera.setTranslateX(this.labyrinth.getPlayerMovement().getPlayerX() * 20 + 5);
+            camera.setTranslateY(this.labyrinth.getPlayerMovement().getPlayerY() * 20 + 5);
         }
 
         primaryStage.setTitle("Labyrinthe 3D");
@@ -277,7 +277,7 @@ public class Main3D extends Application {
             camera.setTranslateX(futureX);
             camera.setTranslateY(futureY);
             camera.setTranslateZ(futureZ); // Add the elevation change here
-            this.labyrinth.setPlayerPosition((int) (futureX / 20), (int) (futureY / 20));
+            this.labyrinth.getPlayerMovement().setPlayerPosition((int) (futureX / 20), (int) (futureY / 20));
         }
 
         updateWallVisibility(camera);
@@ -454,7 +454,7 @@ public class Main3D extends Application {
         return lines;
     }
 
-    public List<LineData> getLines(Labyrinth labyrinth) {
+    public List<LineData> getLines(SquareLabyrinth labyrinth) {
         List<LineData> lines = new ArrayList<>();
         double cellSize = 20;
 

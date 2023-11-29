@@ -1,7 +1,7 @@
 package labyrinth.controller;
 
 import javafx.stage.Stage;
-import labyrinth.Labyrinth;
+import labyrinth.SquareLabyrinth;
 import labyrinth.view.LabyrinthCanvasGenerator;
 import labyrinth.facade.Facade;
 import labyrinth.view.Home;
@@ -11,7 +11,7 @@ public class Controller {
     private Home home;
     private Facade facade;
     private LabyrinthCanvasGenerator generator;
-    private Labyrinth labyrinth;
+    private SquareLabyrinth labyrinth;
     public Controller(Facade facade, Stage stage) {
         this.facade = facade;
         this.generator = new LabyrinthCanvasGenerator();
@@ -46,7 +46,7 @@ public class Controller {
         return labyrinth.isMovePossible2D(x, y);
     }
 
-    public Labyrinth getLabyrinth() {
+    public SquareLabyrinth getLabyrinth() {
         return labyrinth;
     }
 }

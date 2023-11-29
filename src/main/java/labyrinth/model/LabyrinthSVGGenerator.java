@@ -1,16 +1,12 @@
 package labyrinth.model;
 
-import labyrinth.Labyrinth;
+import labyrinth.SquareLabyrinth;
 
-import java.io.BufferedWriter;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class LabyrinthSVGGenerator {
 
-    public String generateSVG(Labyrinth labyrinth) {
+    public String generateSVG(SquareLabyrinth labyrinth) {
         int cellSize = 20;  // Taille de chaque cellule en pixels
         StringBuilder svgContent = new StringBuilder();
         boolean[][] hWalls = labyrinth.getHorizontalWalls();
