@@ -16,8 +16,6 @@ public class Labyrinth {
 
     private List<int[]> path;
 
-    private int size;
-
     public Labyrinth(int m, int n) {
         this.verticalWalls = new boolean[m][n+1];
         this.horizontalWalls = new boolean[m+1][n];
@@ -89,14 +87,13 @@ public class Labyrinth {
             }
         }
 
-        start = rand.nextInt(col);
-        end = rand.nextInt(col);
+        start = rand.nextInt(0, verticalWalls.length);
+        end = rand.nextInt(0, verticalWalls.length);
 
         playerX = 0;
         playerY = start;
-
         verticalWalls[start][0] = false;
-        verticalWalls[end][line] = false;
+        verticalWalls[end][verticalWalls[0].length-1] = false;
     }
 
     public int getPlayerX() {
@@ -190,8 +187,8 @@ public class Labyrinth {
         // Initialisation
         int rows = horizontalWalls.length;
         int cols = verticalWalls[0].length;
-        int[][] distances = new int[rows][cols];
-        int[][] prev = new int[rows][cols];
+        int[][] distances = new int[cols][rows];
+        int[][] prev = new int[cols][rows];
         PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> distances[a[0]][a[1]] - distances[b[0]][b[1]]);
 
         for (int[] row : distances) Arrays.fill(row, Integer.MAX_VALUE); // INFINITY
@@ -209,7 +206,7 @@ public class Labyrinth {
             // Si c'est la sortie
             if (x == cols - 1 && y == end) break;
 
-            // Vérifier les voisins (haut, bas, gauche, droite)
+            // Vérification des voisins (haut, bas, gauche, droite)
             for (int[] direction : new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}) {
                 int newX = x + direction[0], newY = y + direction[1];
                 if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && isMovePossible(x, y, newX, newY)) {
@@ -273,7 +270,7 @@ public class Labyrinth {
     }
 
     public boolean isMovePossible2D(int newX, int newY) {
-        // Vérifier si la nouvelle position est à l'intérieur des limites du labyrinthe
+        // Vérifie si la nouvelle position est à l'intérieur des limites du labyrinthe
         if (newX < 0 || newY < 0 || newX >= verticalWalls[0].length || newY >= horizontalWalls.length) {
             return false;
         }
@@ -304,6 +301,11 @@ public class Labyrinth {
             if (horizontalWalls[playerY][playerX]) {  // Vérifier s'il y a un mur au-dessus de la position actuelle
                 return false;
             }
+        }
+
+        if(newY == end && newX  == verticalWalls[0].length - 1){
+            System.out.println("Victoire");
+            return false; // TODO: victoire
         }
 
         return true;

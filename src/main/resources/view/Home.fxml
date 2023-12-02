@@ -64,7 +64,8 @@
                               <HBox alignment="CENTER" fillHeight="false" prefHeight="76.0" spacing="10.0" styleClass="button-container">
                                  <children>
                                     <Button fx:id="btnGenerate" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Generate" />
-                                    <TextField fx:id="size" maxHeight="1.7976931348623157E308" prefHeight="1000.0" promptText="size" />
+                                    <TextField fx:id="sizex" maxHeight="1.7976931348623157E308" prefHeight="1000.0" promptText="size X" />
+                                    <TextField fx:id="sizey" maxHeight="1.7976931348623157E308" prefHeight="1000.0" promptText="size Y" />
                                     <TextField fx:id="seed" maxHeight="1.7976931348623157E308" prefHeight="900.0" promptText="seed" HBox.hgrow="ALWAYS" />
                                     <ComboBox fx:id="algoList" maxHeight="-Infinity" prefWidth="150.0" promptText="test" />
                                     <Button fx:id="btnSolve" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefHeight="1000.0" styleClass="button-generate" text="Solve" />

@@ -11,6 +11,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape3D;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import labyrinth.Labyrinth;
@@ -44,7 +45,10 @@ public class Main3D extends Application {
     private double anchorAngleY = 0;
     private final double mouseSensitivityX = 0.06;
     private final double mouseSensitivityY = 0.03;
-    private static final double DRAG_THRESHOLD = 5;
+
+    private Text fpsText = new Text();
+    private long lastUpdate = 0;
+    private boolean fpsVisible = false;
 
     private Labyrinth labyrinth;
 
@@ -59,6 +63,8 @@ public class Main3D extends Application {
         PerspectiveCamera camera = new PerspectiveCamera(true);
         primaryStage.setMaximized(true);
         Scene scene = new Scene(root, 1020, 1020, true);
+
+
         PointLight pointLight = new PointLight();
         pointLight.setColor(Color.WHITE); // Vous pouvez ajuster la couleur selon vos besoins
         pointLight.setLayoutX(150); // Position en X
@@ -482,23 +488,26 @@ public class Main3D extends Application {
 
     private void drawChunckLimit() {
         double gridHeight = 255;
-        double size = Math.sqrt(this.chunks.size());
-        for (int x = 0; x <= size * CHUNK_SIZE; x += CHUNK_SIZE) {
-            Line line = new Line(x, 0, x, size * CHUNK_SIZE);
-            line.setStroke(Color.RED);
+        // problème de taille de la grille
+        double sizex = this.labyrinth.getVerticalWalls().length;
+        double sizey = this.labyrinth.getHorizontalWalls()[0].length;
+
+        for (int x = 0; x <= sizey * CHUNK_SIZE; x += CHUNK_SIZE) {
+            Line line = new Line(x, 0, x, sizex * CHUNK_SIZE);
+            line.setStroke(Color.GREEN);
             line.setId("chunkGrid"); // Pour identifier facilement les lignes du cadrillage
             root.getChildren().add(line);
         }
 
-        for (int y = 0; y <= size * CHUNK_SIZE; y += CHUNK_SIZE) {
-            Line line = new Line(0, y, size * CHUNK_SIZE, y);
+        for (int y = 0; y <= sizex * CHUNK_SIZE; y += CHUNK_SIZE) {
+            Line line = new Line(0, y, sizey * CHUNK_SIZE, y);
             line.setStroke(Color.RED);
             line.setId("chunkGrid");
             root.getChildren().add(line);
         }
 
-        for (int x = 0; x <= size * CHUNK_SIZE; x += CHUNK_SIZE) {
-            for (int y = 0; y <= size * CHUNK_SIZE; y += CHUNK_SIZE) {
+        for (int x = 0; x <= sizey * CHUNK_SIZE; x += CHUNK_SIZE) {
+            for (int y = 0; y <= sizex * CHUNK_SIZE; y += CHUNK_SIZE) {
                 Box verticalLine = new Box(0.1, 0.1, gridHeight); // Utilisez Box avec une très petite largeur et profondeur
                 verticalLine.setTranslateX(x);
                 verticalLine.setTranslateY(y);
