@@ -48,9 +48,16 @@ public class SquareLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerator
     }
 
 
-    public void drawPath(GraphicsContext gc, List<int[]> path) {
+    public void drawPath(GraphicsContext gc, List<int[]> path, String algo) {
         if (path != null && path.size() > 0) {
-            gc.setStroke(Color.RED);
+            switch (algo) {
+                case "RightHandAlgorithm":
+                    gc.setStroke(Color.RED);
+                    break;
+                case "DijkstraAlgorithm":
+                    gc.setStroke(Color.BLUE);
+                    break;
+            }
             gc.setLineWidth(2);
 
             for (int i = 0; i < path.size() - 1; i++) {

@@ -47,6 +47,7 @@ public class Home {
         vue.btnSolve.setOnAction(vue::handleSolve);
         vue.btnPlay.setOnAction(vue::handlePlay);
         vue.btn3D.setOnAction(vue::handle3D);
+        vue.btnDownload.setOnAction(vue::handleDownload);
 
         vue.canvas.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && !vue.btnPlay.isFocusWithin()) { // Si le focus est perdu (newValue est false)
@@ -92,6 +93,17 @@ public class Home {
         vue.algoList.setItems(options);
         vue.algoList.setValue("RightHandAlgorithm");
 
+        ObservableList<String> options2 =
+                FXCollections.observableArrayList(
+                        "Square",
+                        "Hexagon"
+                );
+
+        vue.shape.setItems(options2);
+        vue.shape.setValue("Square");
+
+
+
         return vue;
     }
 
@@ -124,6 +136,12 @@ public class Home {
 
     @FXML
     private Button btn3D;
+
+    @FXML
+    private ComboBox shape;
+
+    @FXML
+    private Button btnDownload;
 
     private Main3D main3D;
 
@@ -217,13 +235,15 @@ public class Home {
         if(sizex.getText().isEmpty()) sizex.setText("10");
         if(sizey.getText().isEmpty()) sizey.setText("10");
         if(seed.getText().isEmpty()) seed.setText(random.nextInt(10000000) + "");
-        controller.generate(Integer.parseInt(sizex.getText()), Integer.parseInt(sizey.getText()), Long.parseLong(seed.getText()));
+        controller.generate(Integer.parseInt(sizex.getText()), Integer.parseInt(sizey.getText()), Long.parseLong(seed.getText()), shape.getValue().toString());
         this.gameState = GameState.STOPPED;
         btnPlay.setText("Play");
         btnPlay.setStyle("-fx-background-color: #32a930;");
     }
 
     private void handleSolve(javafx.event.ActionEvent actionEvent) {
+        controller.solve(this.algoList.getValue().toString());
+        /*
         if(controller.getLabyrinth() == null) return;
 
         if(isSolved) {
@@ -236,6 +256,8 @@ public class Home {
             controller.solve(this.algoList.getValue().toString());
         }
         this.isSolved = !isSolved;
+
+         */
 
     }
 
@@ -304,5 +326,9 @@ public class Home {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleDownload(ActionEvent actionEvent) {
+        controller.download((SquareLabyrinth) controller.getLabyrinth());
     }
 }

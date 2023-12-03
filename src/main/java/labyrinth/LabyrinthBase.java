@@ -20,11 +20,15 @@ public abstract class LabyrinthBase {
     private ILabyrinthCanvasGenerator canvasGenerator;
 
     private ILabyrinthGenerator generator;
+    private int n;
+    private int m;
 
 
     public LabyrinthBase(int m, int n) {
         start = 0;
         end = 0;
+        this.m = m;
+        this.n = n;
         playerMovement = new PlayerMovement(this);
     }
 
@@ -197,5 +201,13 @@ public abstract class LabyrinthBase {
 
     public ILabyrinthGenerator getGenerator() {
         return generator;
+    }
+
+    public int getN(){
+        return this.n;
+    }
+
+    public int getM(){
+        return this.m;
     }
 }

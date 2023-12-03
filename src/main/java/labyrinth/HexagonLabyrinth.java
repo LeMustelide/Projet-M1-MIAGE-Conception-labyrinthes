@@ -47,4 +47,43 @@ public class HexagonLabyrinth extends LabyrinthBase {
         return end;
     }
 
+    @Override
+    public boolean isMovePossible(int x, int y, int newX, int newY) {
+        // Vérifier les limites du labyrinthe
+        if (newX < 0 || newY < 0 || newX >= verticalWalls.length || newY >= verticalWalls[0].length) {
+            return false; // Le mouvement est en dehors des limites du labyrinthe
+        }
+
+        // Déplacement Est-Ouest (horizontal)
+        if (newY == y) {
+            if (newX > x) {
+                return !verticalWalls[x][y]; // Pas de mur vertical à droite
+            } else if (newX < x) {
+                return !verticalWalls[x - 1][y]; // Pas de mur vertical à gauche
+            }
+        }
+
+        // Déplacement Nord-Est / Sud-Ouest
+        if (newX - newY == x - y) {
+            if (newY > y) {
+                return !ascendingDiagonalWalls[x][y]; // Pas de mur diagonal ascendant en bas
+            } else if (newY < y) {
+                return !ascendingDiagonalWalls[x - 1][y - 1]; // Pas de mur diagonal ascendant en haut
+            }
+        }
+
+        // Déplacement Nord-Ouest / Sud-Est
+        if (newX + newY == x + y) {
+            if (newY > y) {
+                return !descendingDiagonalWalls[x][y]; // Pas de mur diagonal descendant en bas
+            } else if (newY < y) {
+                return !descendingDiagonalWalls[x][y - 1]; // Pas de mur diagonal descendant en haut
+            }
+        }
+
+        return false; // Par défaut, le mouvement n'est pas possible
+    }
+
+
+
 }

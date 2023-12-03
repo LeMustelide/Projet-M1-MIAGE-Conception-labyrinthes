@@ -27,8 +27,8 @@ public class Controller {
         showHome();
     }
 
-    public void generate(int sizex, int sizey, long seed) {
-        labyrinth = facade.generate(sizex, sizey, seed);
+    public void generate(int sizex, int sizey, long seed, String shape) {
+        labyrinth = facade.generate(sizex, sizey, seed, shape);
         if(labyrinth instanceof SquareLabyrinth) {
             home.getGraphicsContext().getCanvas().setWidth(sizey * 20);
             home.getGraphicsContext().getCanvas().setHeight(sizex * 20);
@@ -46,7 +46,7 @@ public class Controller {
     }
 
     public void solve(String algo) {
-        labyrinth.getCanvasGenerator().drawPath(home.getGraphicsContext(), facade.solve(algo));
+        labyrinth.getCanvasGenerator().drawPath(home.getGraphicsContext(), facade.solve(algo), algo);
     }
 
     public boolean canMove(int x, int y) {
@@ -55,5 +55,9 @@ public class Controller {
 
     public LabyrinthBase getLabyrinth() {
         return labyrinth;
+    }
+
+    public void download(SquareLabyrinth labyrinth) {
+        facade.download(labyrinth);
     }
 }

@@ -20,12 +20,11 @@ public class HexagonLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerato
         vWalls = labyrinth.getVerticalWalls();
         adWalls = labyrinth.getAscendingDiagonalWalls();
         ddWalls = labyrinth.getDescendingDiagonalWalls();
-        System.out.println(vWalls.length + " " + (vWalls[0].length-1));
         drawWallsHexagonal(gc, vWalls, adWalls, ddWalls, 20, vWalls.length, vWalls[0].length-1);
     }
 
     @Override
-    public void drawPath(GraphicsContext gc, List<int[]> path) {
+    public void drawPath(GraphicsContext gc, List<int[]> path, String algo) {
         if (path != null && path.size() > 0) {
             gc.setStroke(Color.RED);
             gc.setLineWidth(2);

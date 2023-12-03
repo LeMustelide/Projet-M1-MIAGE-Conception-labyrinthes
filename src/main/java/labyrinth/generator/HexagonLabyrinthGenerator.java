@@ -40,7 +40,6 @@ public class HexagonLabyrinthGenerator implements ILabyrinthGenerator{
         }
 
         walls = (ArrayList<Integer>) LabyrinthFunctionLibrary.shuffle(walls);
-        System.out.println(walls.size());
         UnionFind uf = labyrinth.getUnionFind();
         for (int wall : walls) {
             int x = LabyrinthFunctionLibrary.decodeX(wall);
@@ -80,7 +79,6 @@ public class HexagonLabyrinthGenerator implements ILabyrinthGenerator{
         labyrinth.getPlayerMovement().setPlayerX(0);
         labyrinth.getPlayerMovement().setPlayerY(labyrinth.getStart());
         labyrinth.updateVerticalWalls(0, labyrinth.getStart(), false);
-        System.out.println("start : " + labyrinth.getStart() + " end : " + labyrinth.getEnd());
 
     }
 }
