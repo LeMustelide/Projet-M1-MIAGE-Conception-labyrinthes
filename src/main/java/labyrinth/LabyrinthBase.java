@@ -1,18 +1,28 @@
 package labyrinth;
 
+import labyrinth.generator.ILabyrinthGenerator;
+import labyrinth.labyrinthCanvasGenerator.ILabyrinthCanvasGenerator;
+import labyrinth.solver.ILabyrinthSolver;
+
 import java.util.Random;
 
 public abstract class LabyrinthBase {
     protected Random rand = new Random();
     protected boolean[][] verticalWalls;    // Murs verticaux: (m+1) x n
     protected boolean[][] horizontalWalls;  // Murs horizontaux: m x (n+1)
+    protected boolean[][] ascendingDiagonalWalls; // Murs diagonaux ascendants: (m+1) x (n+1)
+    protected boolean[][] descendingDiagonalWalls; // Murs diagonaux descendants: (m+1) x (n+1)
+
     protected int start, end;
     protected IPlayerMovement playerMovement;
     protected UnionFind uf;
+    private ILabyrinthSolver solver;
+    private ILabyrinthCanvasGenerator canvasGenerator;
+
+    private ILabyrinthGenerator generator;
 
 
     public LabyrinthBase(int m, int n) {
-        horizontalWalls = new boolean[m+1][n];
         start = 0;
         end = 0;
         playerMovement = new PlayerMovement(this);
@@ -20,6 +30,18 @@ public abstract class LabyrinthBase {
 
     public void addVerticalWalls(int m, int n) {
         this.verticalWalls = new boolean[m][n+1];
+    }
+
+    public void addHorizontalWalls(int m, int n) {
+        this.horizontalWalls = new boolean[m+1][n];
+    }
+
+    public void addAscendingDiagonalWalls(int m, int n) {
+        this.ascendingDiagonalWalls = new boolean[m+1][n+1]; // revoire la taille
+    }
+
+    public void addDescendingDiagonalWalls(int m, int n) {
+        this.descendingDiagonalWalls = new boolean[m+1][n+1]; // revoire la taille
     }
 
     public boolean isMovePossible2D(int newX, int newY) {
@@ -90,6 +112,14 @@ public abstract class LabyrinthBase {
         return verticalWalls;
     }
 
+    public boolean[][] getAscendingDiagonalWalls() {
+        return ascendingDiagonalWalls;
+    }
+
+    public boolean[][] getDescendingDiagonalWalls() {
+        return descendingDiagonalWalls;
+    }
+
     public void setStart(int start){
         this.start = start;
     }
@@ -104,5 +134,68 @@ public abstract class LabyrinthBase {
 
     public int getEnd(){
         return this.end;
+    }
+
+    public boolean isMovePossible(int x, int y, int newX, int newY) {
+        // Vérifier les limites du labyrinthe
+        if (newX < 0 || newY < 0 || newX >= verticalWalls[0].length || newY >= horizontalWalls.length) {
+            return false; // Le mouvement est en dehors des limites du labyrinthe
+        }
+
+        // Déplacement vers l'est
+        if (newX > x) {
+            return !verticalWalls[y][x + 1]; // Il ne doit pas y avoir de mur à droite
+        }
+
+        // Déplacement vers l'ouest
+        if (newX < x) {
+            return !verticalWalls[y][x]; // Il ne doit pas y avoir de mur à gauche
+        }
+
+        // Déplacement vers le sud
+        if (newY > y) {
+            return !horizontalWalls[y + 1][x]; // Il ne doit pas y avoir de mur en bas
+        }
+
+        // Déplacement vers le nord
+        if (newY < y) {
+            return !horizontalWalls[y][x]; // Il ne doit pas y avoir de mur en haut
+        }
+
+        return false; // Par défaut, le mouvement n'est pas possible
+    }
+
+    public int[] getNextMove(int x, int y, int direction) {
+        switch (direction) {
+            case 0: return new int[]{x + 1, y}; // Est
+            case 1: return new int[]{x, y + 1}; // Sud
+            case 2: return new int[]{x - 1, y}; // Ouest
+            case 3: return new int[]{x, y - 1}; // Nord
+            default: throw new IllegalArgumentException("Direction non valide");
+        }
+    }
+
+    public void setSolver(ILabyrinthSolver solver) {
+        this.solver = solver;
+    }
+
+    public ILabyrinthSolver getSolver() {
+        return solver;
+    }
+
+    public void setCanvasGenerator(ILabyrinthCanvasGenerator canvasGenerator) {
+        this.canvasGenerator = canvasGenerator;
+    }
+
+    public ILabyrinthCanvasGenerator getCanvasGenerator() {
+        return canvasGenerator;
+    }
+
+    public void setGenerator(ILabyrinthGenerator generator) {
+        this.generator = generator;
+    }
+
+    public ILabyrinthGenerator getGenerator() {
+        return generator;
     }
 }

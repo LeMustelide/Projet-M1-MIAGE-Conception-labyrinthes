@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LabyrinthSVGGenerator {
 
-    public String generateSVG(SquareLabyrinth labyrinth) {
+    public String generateSVG(SquareLabyrinth labyrinth, List<int[]> path) {
         int cellSize = 20;  // Taille de chaque cellule en pixels
         StringBuilder svgContent = new StringBuilder();
         boolean[][] hWalls = labyrinth.getHorizontalWalls();
@@ -51,22 +51,18 @@ public class LabyrinthSVGGenerator {
         }
 
         int x1 = 0 * cellSize + 5;
-        int y1 = labyrinth.getEntry() * cellSize + 5;
+        int y1 = labyrinth.getStart() * cellSize + 5;
         int x2 = x1;
         int y2 = y1 + cellSize;
         svgContent.append("<line class=\"entry\" x1=\"").append(x1).append("\" y1=\"").append(y1)
                 .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>");
 
         x1 = (hWalls.length-1) * cellSize + 5;
-        y1 = labyrinth.getExit() * cellSize + 5;
+        y1 = labyrinth.getEnd() * cellSize + 5;
         x2 = x1;
         y2 = y1 + cellSize;
         svgContent.append("<line class=\"exit\" x1=\"").append(x1).append("\" y1=\"").append(y1)
                 .append("\" x2=\"").append(x2).append("\" y2=\"").append(y2).append("\"/>");
-
-
-
-        List<int[]> path = labyrinth.getPath();
 
         if(path != null) {
 

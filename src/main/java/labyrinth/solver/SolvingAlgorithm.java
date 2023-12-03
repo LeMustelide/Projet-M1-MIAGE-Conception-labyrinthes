@@ -1,4 +1,4 @@
-package labyrinth.view;
+package labyrinth.solver;
 
 public enum SolvingAlgorithm {
     RightHandRule,

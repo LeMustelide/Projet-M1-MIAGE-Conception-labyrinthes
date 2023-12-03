@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import labyrinth.SquareLabyrinth;
 import labyrinth.controller.Controller;
 
 import java.io.IOException;
@@ -292,7 +293,7 @@ public class Home {
     private void handle3D(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
-            this.main3D = new Main3D(this.controller.getLabyrinth());
+            this.main3D = new Main3D((SquareLabyrinth) this.controller.getLabyrinth());
 
             // Ajout du gestionnaire de fermeture
             stage.setOnCloseRequest(event -> {

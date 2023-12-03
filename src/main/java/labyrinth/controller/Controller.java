@@ -1,8 +1,11 @@
 package labyrinth.controller;
 
 import javafx.stage.Stage;
+import labyrinth.HexagonLabyrinth;
+import labyrinth.LabyrinthBase;
 import labyrinth.SquareLabyrinth;
-import labyrinth.view.LabyrinthCanvasGenerator;
+import labyrinth.labyrinthCanvasGenerator.ILabyrinthCanvasGenerator;
+import labyrinth.labyrinthCanvasGenerator.SquareLabyrinthCanvasGenerator;
 import labyrinth.facade.Facade;
 import labyrinth.view.Home;
 
@@ -10,11 +13,9 @@ public class Controller {
 
     private Home home;
     private Facade facade;
-    private LabyrinthCanvasGenerator generator;
-    private SquareLabyrinth labyrinth;
+    private LabyrinthBase labyrinth;
     public Controller(Facade facade, Stage stage) {
         this.facade = facade;
-        this.generator = new LabyrinthCanvasGenerator();
         home = Home.creerVue(this, stage);
     }
 
@@ -28,25 +29,31 @@ public class Controller {
 
     public void generate(int sizex, int sizey, long seed) {
         labyrinth = facade.generate(sizex, sizey, seed);
-        home.getGraphicsContext().getCanvas().setWidth(sizey * 20);
-        home.getGraphicsContext().getCanvas().setHeight(sizex * 20);
+        if(labyrinth instanceof SquareLabyrinth) {
+            home.getGraphicsContext().getCanvas().setWidth(sizey * 20);
+            home.getGraphicsContext().getCanvas().setHeight(sizex * 20);
+        }
+        else if(labyrinth instanceof HexagonLabyrinth) {
+            home.getGraphicsContext().getCanvas().setWidth(sizey * 40 + 20);
+            home.getGraphicsContext().getCanvas().setHeight(sizex * 35 + 20);
+        }
+        ILabyrinthCanvasGenerator generator = labyrinth.getCanvasGenerator();
         generator.generateCanvas(labyrinth, home.getGraphicsContext());
     }
 
     public void regenerate() {
-        generator.generateCanvas(labyrinth, home.getGraphicsContext());
+        labyrinth.getCanvasGenerator().generateCanvas(labyrinth, home.getGraphicsContext());
     }
 
     public void solve(String algo) {
-        facade.solve(algo);
-        generator.drawPath(home.getGraphicsContext(), labyrinth.getPath());
+        labyrinth.getCanvasGenerator().drawPath(home.getGraphicsContext(), facade.solve(algo));
     }
 
     public boolean canMove(int x, int y) {
         return labyrinth.isMovePossible2D(x, y);
     }
 
-    public SquareLabyrinth getLabyrinth() {
+    public LabyrinthBase getLabyrinth() {
         return labyrinth;
     }
 }

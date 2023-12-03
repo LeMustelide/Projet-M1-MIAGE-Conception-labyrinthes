@@ -1,21 +1,21 @@
-package labyrinth;
+package labyrinth.solver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import labyrinth.LabyrinthBase;
+import labyrinth.LabyrinthFunctionLibrary;
 
-public class LabyrinthSolver {
+import java.util.*;
+
+public class SquareLabyrinthSolver implements ILabyrinthSolver {
 
     private List<int[]> path;
 
     public List<int[]> solveWithDijkstraAlgorithm(LabyrinthBase labyrinth) {
         // Initialisation
-        int rows = labyrinth.getHorizontalWalls().length;
-        int cols = labyrinth.verticalWalls[0].length;
+        int rows = labyrinth.getVerticalWalls().length;
+        int cols = labyrinth.getHorizontalWalls()[0].length;
         int[][] distances = new int[cols][rows];
         int[][] prev = new int[cols][rows];
-        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> distances[a[0]][a[1]] - distances[b[0]][b[1]]);
+        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> distances[a[0]][a[1]]));
 
         for (int[] row : distances) Arrays.fill(row, Integer.MAX_VALUE); // INFINITY
         for (int[] row : prev) Arrays.fill(row, -1); // Undefined
@@ -39,7 +39,7 @@ public class LabyrinthSolver {
                     int newDist = distances[x][y] + 1; // Coût de déplacement uniforme
                     if (newDist < distances[newX][newY]) {
                         distances[newX][newY] = newDist;
-                        prev[newX][newY] = LabyrinthFunctionLibrary.encodePosition(x, y, labyrinth.getHorizontalWalls()); // Encode current position as previous
+                        prev[newX][newY] = LabyrinthFunctionLibrary.encodePosition(x, y, labyrinth.getVerticalWalls()); // Encode current position as previous
                         queue.offer(new int[]{newX, newY});
                     }
                 }
@@ -48,28 +48,28 @@ public class LabyrinthSolver {
 
         // Reconstruire le chemin
         path = new ArrayList<>();
-        int[] tracePos = {cols - 1, labyrinth.getEnd()};
+        int[] tracePos = {cols - 1, labyrinth.getEnd()};;
         while (tracePos != null) {
             path.add(0, tracePos); // Ajoute au début pour reconstruire le chemin
-            tracePos = LabyrinthFunctionLibrary.decodePosition(prev[tracePos[0]][tracePos[1]], labyrinth.getHorizontalWalls()); // Decode to get previous position
+            int encodedPos = prev[tracePos[0]][tracePos[1]];
+            tracePos = LabyrinthFunctionLibrary.decodePosition(encodedPos, labyrinth.getVerticalWalls());
         }
 
         return path;
     }
 
-
     public List<int[]> solveWithRightHandAlgorithm(LabyrinthBase labyrinth) {
         path = new ArrayList<>(); // Pour stocker le chemin emprunté
 
         // Commencer à l'entrée du labyrinthe
-        int x = 0, y = start;
+        int x = 0, y = labyrinth.getStart();
         int direction = 0; // Représenter les directions avec des chiffres : 0 = Est, 1 = Sud, 2 = Ouest, 3 = Nord
 
         path.add(new int[] {x, y}); // Ajouter la position de départ au chemin
 
         while (true) {
             // Vérifier si nous sommes à la sortie
-            if (x == horizontalWalls[0].length - 1 && y == end) {
+            if (x == labyrinth.getHorizontalWalls()[0].length - 1 && y == labyrinth.getEnd()) {
                 break;
             }
 
@@ -77,9 +77,9 @@ public class LabyrinthSolver {
 
             // Essayez de tourner à droite et de bouger dans cette direction
             int newDirection = (direction + 3) % 4;
-            int[] nextMove = getNextMove(x, y, newDirection);
+            int[] nextMove = labyrinth.getNextMove(x, y, newDirection);
 
-            if (isMovePossible(x, y, nextMove[0], nextMove[1])) {
+            if (labyrinth.isMovePossible(x, y, nextMove[0], nextMove[1])) {
                 direction = newDirection;
                 x = nextMove[0];
                 y = nextMove[1];
@@ -87,8 +87,8 @@ public class LabyrinthSolver {
                 moved = true;
             } else {
                 // Essayez de bouger tout droit si bouger à droite n'est pas possible
-                nextMove = getNextMove(x, y, direction);
-                if (isMovePossible(x, y, nextMove[0], nextMove[1])) {
+                nextMove = labyrinth.getNextMove(x, y, direction);
+                if (labyrinth.isMovePossible(x, y, nextMove[0], nextMove[1])) {
                     x = nextMove[0];
                     y = nextMove[1];
                     path.add(new int[]{x, y});
@@ -104,5 +104,8 @@ public class LabyrinthSolver {
         return path;
     }
 
+    public List<int[]> getPath() {
+        return path;
+    }
 
 }

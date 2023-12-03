@@ -1,23 +1,23 @@
-package labyrinth.view;
+package labyrinth.labyrinthCanvasGenerator;
 
+import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import labyrinth.SquareLabyrinth;
+import javafx.scene.shape.Polygon;
+import labyrinth.LabyrinthBase;
 
 import java.util.List;
 
-public class LabyrinthCanvasGenerator {
+public class SquareLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerator{
     private int cellSize = 20;  // Taille de chaque cellule en pixels
 
-    public void generateCanvas(SquareLabyrinth labyrinth, GraphicsContext gc) {
-        boolean[][] hWalls = labyrinth.getHorizontalWalls();
-        boolean[][] vWalls = labyrinth.getVerticalWalls();
-
-        int width = vWalls[0].length * cellSize;
-        int height = hWalls.length * cellSize;
-
+    public void generateCanvas(LabyrinthBase labyrinth, GraphicsContext gc) {
+        boolean[][] hWalls;
+        boolean[][] vWalls;
+        hWalls = labyrinth.getHorizontalWalls();
+        vWalls = labyrinth.getVerticalWalls();
         drawWalls(gc, hWalls, vWalls);
-        drawEntryAndExit(gc, labyrinth.getEntry(), labyrinth.getExit(), hWalls);
+        drawEntryAndExit(gc, labyrinth.getStart(), labyrinth.getEnd(), hWalls);
     }
 
     private void drawWalls(GraphicsContext gc, boolean[][] hWalls, boolean[][] vWalls) {
@@ -46,6 +46,7 @@ public class LabyrinthCanvasGenerator {
             }
         }
     }
+
 
     public void drawPath(GraphicsContext gc, List<int[]> path) {
         if (path != null && path.size() > 0) {

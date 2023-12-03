@@ -24,6 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Math.max;
+
 public class Main3D extends Application {
 
     private final Set<KeyCode> keysPressed = ConcurrentHashMap.newKeySet();
@@ -66,10 +68,11 @@ public class Main3D extends Application {
 
 
         PointLight pointLight = new PointLight();
-        pointLight.setColor(Color.WHITE); // Vous pouvez ajuster la couleur selon vos besoins
+        pointLight.setColor(Color.AZURE); // Vous pouvez ajuster la couleur selon vos besoins
         pointLight.setLayoutX(150); // Position en X
         pointLight.setLayoutY(100); // Position en Y
         pointLight.setTranslateZ(-400); // Position en Z
+        pointLight.setRotate(45); // Rotation de la lumière
 
         scene.setFill(Color.WHITE);
 
@@ -350,8 +353,8 @@ public class Main3D extends Application {
         int viewDistance = (int) Math.ceil(cullingDistance / CHUNK_SIZE);
 
         // Itérer sur les chunks dans la portée de la caméra
-        for (int x = Math.max(currentChunkX - viewDistance, 0); x <= currentChunkX + viewDistance; x++) {
-            for (int y = Math.max(currentChunkY - viewDistance, 0); y <= currentChunkY + viewDistance; y++) {
+        for (int x = max(currentChunkX - viewDistance, 0); x <= currentChunkX + viewDistance; x++) {
+            for (int y = max(currentChunkY - viewDistance, 0); y <= currentChunkY + viewDistance; y++) {
                 // Obtenir le chunk aux coordonnées actuelles
 
                 Chunk chunk = getChunk(x, y); // OK
@@ -489,8 +492,8 @@ public class Main3D extends Application {
     private void drawChunckLimit() {
         double gridHeight = 255;
         // problème de taille de la grille
-        double sizex = this.labyrinth.getVerticalWalls().length;
-        double sizey = this.labyrinth.getHorizontalWalls()[0].length;
+        double sizex = max(1, ((double) this.labyrinth.getVerticalWalls().length*20) / (double) CHUNK_SIZE);
+        double sizey = max(1, ((double) this.labyrinth.getHorizontalWalls()[0].length*20) / (double) CHUNK_SIZE);
 
         for (int x = 0; x <= sizey * CHUNK_SIZE; x += CHUNK_SIZE) {
             Line line = new Line(x, 0, x, sizex * CHUNK_SIZE);

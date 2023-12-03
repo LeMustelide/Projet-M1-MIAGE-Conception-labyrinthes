@@ -1,11 +1,14 @@
 package labyrinth.facade;
 
-import labyrinth.LabyrinthGenerator;
-import labyrinth.SquareLabyrinth;
+import labyrinth.*;
+import labyrinth.generator.SquareLabyrinthGenerator;
+import labyrinth.solver.ILabyrinthSolver;
+
+import java.util.List;
 
 public class Facade implements IFacade{
 
-    private SquareLabyrinth labyrinth;
+    private LabyrinthBase labyrinth;
 
     private static Facade instance = new Facade();
 
@@ -20,27 +23,23 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public SquareLabyrinth generate(int width, int height, long seed) {
+    public LabyrinthBase generate(int width, int height, long seed) {
         //LabyrinthSVGGenerator generator = new LabyrinthSVGGenerator();
-        this.labyrinth = new SquareLabyrinth(width, height, 4);
-        LabyrinthGenerator generator = new LabyrinthGenerator();
-        generator.generatePerfectLabyrinth(seed, this.labyrinth);
+        //this.labyrinth = new SquareLabyrinth(width, height);
+        this.labyrinth = new HexagonLabyrinth(width, height);
+        this.labyrinth.getGenerator().generatePerfectLabyrinth(seed, this.labyrinth);
         return this.labyrinth;
     }
 
     @Override
-    public void solve(String algo) {
-        switch (algo) {
-            case "RightHandAlgorithm":
-                this.labyrinth.solveWithRightHandAlgorithm();
-                break;
-            case "DijkstraAlgorithm":
-                this.labyrinth.solveWithDijkstraAlgorithm();
-                break;
-            default:
-                this.labyrinth.solveWithRightHandAlgorithm();
-                break;
+    public List<int[]> solve(String algo) {
+        ILabyrinthSolver solver = this.labyrinth.getSolver();
+        if (algo.equals("DijkstraAlgorithm")) {
+            solver.solveWithDijkstraAlgorithm(this.labyrinth);
+        } else {
+            solver.solveWithRightHandAlgorithm(this.labyrinth);
         }
+        return solver.getPath();
     }
 
     @Override
