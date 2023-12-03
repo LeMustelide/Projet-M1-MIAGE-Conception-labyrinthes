@@ -2,6 +2,7 @@ package labyrinth;
 
 import labyrinth.generator.HexagonLabyrinthGenerator;
 import labyrinth.labyrinthCanvasGenerator.HexagonLabyrinthCanvasGenerator;
+import labyrinth.solver.HexagonLabyrinthSolver;
 import labyrinth.view.Shape;
 
 public class HexagonLabyrinth extends LabyrinthBase {
@@ -10,7 +11,7 @@ public class HexagonLabyrinth extends LabyrinthBase {
 
     public HexagonLabyrinth(int m, int n) {
         super(m, n);
-        //super.setSolver(new HexagonLabyrinthSolver());
+        super.setSolver(new HexagonLabyrinthSolver());
         super.setCanvasGenerator(new HexagonLabyrinthCanvasGenerator());
         super.setGenerator(new HexagonLabyrinthGenerator());
         super.addVerticalWalls(m, n);

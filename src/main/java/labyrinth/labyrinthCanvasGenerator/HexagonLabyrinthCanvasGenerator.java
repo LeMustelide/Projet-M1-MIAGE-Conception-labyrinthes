@@ -10,11 +10,13 @@ import java.util.List;
 
 public class HexagonLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerator{
     private int cellSize = 20;  // Taille de chaque cellule en pixels
+    private LabyrinthBase labyrinth;
     @Override
     public void generateCanvas(LabyrinthBase labyrinth, GraphicsContext gc) {
         boolean[][] vWalls;
         boolean[][] adWalls;
         boolean[][] ddWalls;
+        this.labyrinth = labyrinth;
         vWalls = labyrinth.getVerticalWalls();
         adWalls = labyrinth.getAscendingDiagonalWalls();
         ddWalls = labyrinth.getDescendingDiagonalWalls();
@@ -42,7 +44,7 @@ public class HexagonLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerato
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(3);
 
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
 
                 double y = j * Math.sqrt(3) * hexSize * 0.9 + hexSize;
@@ -61,6 +63,10 @@ public class HexagonLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerato
 
                 if (vWalls[i][j]) {
                     gc.strokeLine(points.get(4).doubleValue(), points.get(5).doubleValue(), points.get(6).doubleValue(), points.get(7).doubleValue());//gauche
+                } else if ( i == 0 && labyrinth.getStart() == j) {
+                    gc.setStroke(Color.GREEN);
+                    gc.strokeLine(points.get(4).doubleValue(), points.get(5).doubleValue(), points.get(6).doubleValue(), points.get(7).doubleValue());//gauche
+                    gc.setStroke(Color.BLACK);
                 }
                 if (adWalls[i][j]) {
                     gc.strokeLine(points.get(6).doubleValue(), points.get(7).doubleValue(), points.get(8).doubleValue(), points.get(9).doubleValue());//hautgauche
@@ -73,13 +79,17 @@ public class HexagonLabyrinthCanvasGenerator implements ILabyrinthCanvasGenerato
                 // affichage des bordures
 
                 if (i == 0 && j % 2 == 0 || j == numRows - 1) {
-                    gc.strokeLine(points.get(2), points.get(3), points.get(4), points.get(5));//basgauche
+                    gc.strokeLine(points.get(2), points.get(3), points.get(4), points.get(5)); //basgauche
                 }
-                if (i == numCols - 1) {
-                    gc.strokeLine(points.get(10), points.get(11), points.get(0), points.get(1));//droite
+                if (i == numCols - 1 && labyrinth.getEnd() != j) {
+                    gc.strokeLine(points.get(10), points.get(11), points.get(0), points.get(1)); //droite
+                } else if (i == numCols - 1 && labyrinth.getEnd() == j) {
+                    gc.setStroke(Color.RED);
+                    gc.strokeLine(points.get(10), points.get(11), points.get(0), points.get(1)); //droite
+                    gc.setStroke(Color.BLACK);
                 }
                 if (i == numRows - 1 && j % 2 == 1 || j == numCols - 1) {
-                    gc.strokeLine(points.get(0), points.get(1), points.get(2), points.get(3));//basdroite
+                    gc.strokeLine(points.get(0), points.get(1), points.get(2), points.get(3)); //basdroite
                 }
             }
         }

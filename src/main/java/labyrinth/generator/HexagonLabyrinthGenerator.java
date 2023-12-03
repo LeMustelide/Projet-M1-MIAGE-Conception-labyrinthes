@@ -79,8 +79,7 @@ public class HexagonLabyrinthGenerator implements ILabyrinthGenerator{
 
         labyrinth.getPlayerMovement().setPlayerX(0);
         labyrinth.getPlayerMovement().setPlayerY(labyrinth.getStart());
-        labyrinth.updateVerticalWalls(labyrinth.getStart(), 0, false);
-        labyrinth.updateVerticalWalls(labyrinth.getEnd(), cols-1, false);
+        labyrinth.updateVerticalWalls(0, labyrinth.getStart(), false);
         System.out.println("start : " + labyrinth.getStart() + " end : " + labyrinth.getEnd());
 
     }
